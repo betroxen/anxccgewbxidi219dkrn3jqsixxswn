@@ -1,4 +1,5 @@
 
+
 import {
   Loader2,
   ChevronDown,
@@ -70,7 +71,9 @@ import {
   Binary,
   Gem,
   Terminal,
-  RefreshCw
+  RefreshCw,
+  // FIX: Import the 'Copy' icon.
+  Copy,
 } from 'lucide-react';
 
 export const Icons = {
@@ -144,5 +147,7 @@ export const Icons = {
   Binary,
   Gem,
   Terminal,
-  RefreshCw
+  RefreshCw,
+  // FIX: Export the 'Copy' icon.
+  Copy,
 };

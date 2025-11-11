@@ -49,11 +49,14 @@ export const GlobalStyles = () => (
     }
 
     /* Utility Classes */
-    .font-heading { font-family: 'Orbitron', sans-serif; letter-spacing: 0.05em; }
+    .font-heading, .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
     .font-tactical { font-family: 'Rajdhani', sans-serif; font-weight: 500; }
     .text-glow { text-shadow: 0 0 12px rgba(0, 255, 192, 0.6); }
+    .neon-text { color: var(--zap-green); text-shadow: 0 0 5px rgba(0, 255, 192, 0.4), 0 0 10px rgba(0, 255, 192, 0.4), 0 0 20px rgba(0, 255, 192, 0.4); }
     .transition-sleek { transition: all 0.3s var(--ease-sleek); }
+    .shadow-card { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
+    .shadow-modal { box-shadow: 0 0 50px rgba(0, 255, 192, 0.2); }
 
     /* V5.1 Kinetic Animations */
     @keyframes depthScaleIn {
@@ -74,6 +77,11 @@ export const GlobalStyles = () => (
     @keyframes scanline {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
+    }
+
+    @keyframes scanline-vertical {
+      0% { top: -20%; }
+      100% { top: 120%; }
     }
 
     @keyframes movingGrid {
@@ -105,6 +113,7 @@ export const GlobalStyles = () => (
     .animate-pulse-glow { animation: pulseGlow 4s infinite ease-in-out; }
     .animate-pulse-slow { animation: pulseGlow 6s infinite ease-in-out; }
     .animate-scanline { animation: scanline 4s linear infinite; }
+    .animate-scanline-vertical { animation: scanline-vertical 8s linear infinite; }
     .animate-moving-grid { animation: movingGrid 10s linear infinite; }
     .animate-modal-enter { animation: modalEnter 0.4s var(--ease-sleek) forwards; }
     .animate-glitch-reveal { animation: glitchReveal 0.4s steps(5, end) forwards; }
