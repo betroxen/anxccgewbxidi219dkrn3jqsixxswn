@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/common/Card';
-import { Button } from '../components/common/Button';
-import { ProgressBar } from '../components/common/ProgressBar';
-import { Icons } from '../components/common/icons';
-import { Toggle } from '../components/common/Toggle';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
+import { ProgressBar } from '../components/ProgressBar';
+import { Icons } from '../components/icons';
+import { Toggle } from '../components/Toggle';
 
 // Mock Data removed
 const ALPHA_FEED: any[] = [];

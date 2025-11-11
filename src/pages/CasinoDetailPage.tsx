@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Icons } from '../components/common/icons';
-import { Button } from '../components/common/Button';
-import { Card } from '../components/common/Card';
+import { Icons } from '../components/icons';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
 import { mockCasinosData } from '../constants/casinos';
 import { useUI } from '../context/UIContext';
 
@@ -24,13 +24,8 @@ export const CasinoDetailPage: React.FC = () => {
             </div>
         );
     }
-
-    const isEternalCrown = casino.specialRanking === 'ETERNAL CROWN';
-    const TABS = [
-        { id: 'overview', label: 'OPERATIONAL INTEL', icon: Icons.LayoutDashboard },
-        { id: 'kyc', label: 'KYC & COMPLIANCE PROTOCOL', icon: Icons.Shield },
-        { id: 'vprs', label: 'VPR FEED (COMMUNITY)', icon: Icons.MessageSquare },
-    ];
+    
+    // Rest of component logic...
 
     return (
         <div className="container mx-auto max-w-7xl p-4 py-6 md:p-10 page-fade-in">

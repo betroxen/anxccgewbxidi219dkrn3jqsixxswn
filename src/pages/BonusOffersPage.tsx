@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { mockCasinosData } from '../constants/casinos';
-import { Card } from '../components/common/Card';
-import { Button } from '../components/common/Button';
-import { Icons } from '../components/common/icons';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
+import { Icons } from '../components/icons';
 
 export const BonusOffersPage = () => {
     const navigate = useNavigate();
@@ -11,7 +11,19 @@ export const BonusOffersPage = () => {
 
     const enrichedBonuses = useMemo(() => {
         return mockCasinosData
-            // ... (sorting logic remains)
+            .filter(c => c.tags.includes('high-bonus') || c.tags.includes('new'))
+            .map(c => ({
+                ...c,
+                wagering: c.id === 'stake' ? 35 : c.id === 'duel' ? 40 : c.id === 'roobet' ? 45 : 30 + Math.floor(Math.random() * 15),
+                minDeposit: c.id === 'stake' ? 20 : 50,
+                maxCashout: c.id === 'stake' ? 'UNLIMITED' : '$5,000',
+                code: c.id === 'stake' ? 'ZAPVIP' : 'AUTO'
+            }))
+            .sort((a, b) => {
+                if (sortBy === 'wagering') return a.wagering - b.wagering;
+                if (sortBy === 'newest') return (b.tags.includes('new') ? 1 : 0) - (a.tags.includes('new') ? 1 : 0);
+                return b.rating - a.rating;
+            });
     }, [sortBy]);
 
     return (
@@ -22,8 +34,11 @@ export const BonusOffersPage = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-10">
                     {enrichedBonuses.map((casino) => (
                         <Card key={casino.id} className="flex flex-col p-0">
-                            {/* ... */}
-                            <Button onClick={() => navigate(`/casinos/${casino.id}`)}>
+                            <div className="p-5">
+                                <h3 className="font-heading text-white">{casino.name}</h3>
+                                <p className="text-sm text-[#00FFC0]">{casino.bonus}</p>
+                            </div>
+                            <Button onClick={() => navigate(`/casinos/${casino.id}`)} className="w-full mt-auto">
                                 CLAIM BOUNTY
                             </Button>
                         </Card>

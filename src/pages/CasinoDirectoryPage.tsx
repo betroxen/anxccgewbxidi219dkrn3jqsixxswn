@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { mockCasinosData } from '../constants/casinos';
-import { Icons } from '../components/common/icons';
-import { Card } from '../components/common/Card';
-import { Button } from '../components/common/Button';
-import { Input } from '../components/common/Input';
-import { Toggle } from '../components/common/Toggle';
+import { Icons } from '../components/icons';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
+import { Input } from '../components/Input';
+import { Toggle } from '../components/Toggle';
+import { SkeletonCard } from '../components/SkeletonCard';
 
 export const CasinoDirectoryPage = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('rating');
     const [filterCategory, setFilterCategory] = useState('ALL');
@@ -16,7 +18,11 @@ export const CasinoDirectoryPage = () => {
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
     const [showVerifiedOnly, setShowVerifiedOnly] = useState(false);
 
-    // Process Data
+    React.useEffect(() => {
+        const timer = setTimeout(() => setLoading(false), 1500);
+        return () => clearTimeout(timer);
+    }, []);
+
     const filteredCasinos = useMemo(() => {
         return mockCasinosData
             .filter(c => {
@@ -35,7 +41,6 @@ export const CasinoDirectoryPage = () => {
 
     return (
         <div className="container mx-auto max-w-[1400px] p-4 py-6 md:p-10 min-h-[calc(100vh-8rem)] flex flex-col page-fade-in">
-            
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 flex-shrink-0 gap-4">
                 <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -61,9 +66,9 @@ export const CasinoDirectoryPage = () => {
 
             <div className="flex flex-1 gap-8 relative">
                 <div className={`fixed md:relative top-0 bottom-0 left-0 z-50 md:z-auto w-80 md:w-72 bg-[#0c0c0e] md:bg-transparent border-r border-[#333] md:border-none flex flex-col transition-transform duration-300 ease-out transform ${isMobileFiltersOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
-                    <Card className="h-full md:h-auto flex-1 md:flex-none overflow-y-auto custom-scrollbar p-5 bg-[#0c0c0e] border-[#333]">
-                        {/* Filter Content */}
-                    </Card>
+                     <Card className="h-full md:h-auto flex-1 md:flex-none overflow-y-auto custom-scrollbar p-5 bg-[#0c0c0e] border-[#333]">
+                        {/* Filter Content Placeholder */}
+                     </Card>
                 </div>
 
                 <div className="flex-1 flex flex-col min-w-0">
@@ -89,12 +94,15 @@ export const CasinoDirectoryPage = () => {
                             // DISPLAYING <span className="text-white font-bold">{filteredCasinos.length}</span> INTEL UNITS
                         </p>
                     </div>
-
+                    
                     {filteredCasinos.length > 0 ? (
                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-8">
-                            {filteredCasinos.map((casino, index) => (
+                            {filteredCasinos.map((casino) => (
                                 <Card key={casino.id} className="p-0 overflow-hidden group">
-                                    <Button onClick={() => navigate(`/casinos/${casino.id}`)} className="w-full">
+                                    <div className="p-5">
+                                      <h3 className="font-heading text-white">{casino.name}</h3>
+                                    </div>
+                                    <Button onClick={() => navigate(`/casinos/${casino.id}`)} className="w-full mt-auto">
                                         ACCESS INTEL UNIT →
                                     </Button>
                                 </Card>

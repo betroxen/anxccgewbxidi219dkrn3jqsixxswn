@@ -2,10 +2,10 @@ import React from 'react';
 import { HeroSection } from '../sections/HeroSection';
 import { FeaturedCasinos } from '../sections/FeaturedCasinos';
 import { FAQComponent } from '../sections/FAQComponent';
-import { Icons } from '../components/common/icons';
-import { Card } from '../components/common/Card';
-import { Button } from '../components/common/Button';
-import { ProgressBar } from '../components/common/ProgressBar';
+import { Icons } from '../components/icons';
+import { Card } from '../components/Card';
+import { Button } from '../components/Button';
+import { ProgressBar } from '../components/ProgressBar';
 import { useAuth } from '../auth/AuthContext';
 import { useUI } from '../context/UIContext';
 
