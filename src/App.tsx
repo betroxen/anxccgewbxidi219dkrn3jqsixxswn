@@ -5,7 +5,7 @@ import { AuthProvider } from './auth/AuthContext';
 import { SoundProvider } from './context/SoundContext';
 import { ToastProvider } from './context/ToastContext';
 import { UIProvider } from './context/UIContext';
-import { GlobalStyles } from './components/layout/GlobalStyles';
+import { GlobalStyles } from './components/GlobalStyles';
 
 const App: React.FC = () => (
   <React.StrictMode>
