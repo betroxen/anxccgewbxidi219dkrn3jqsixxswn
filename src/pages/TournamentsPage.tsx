@@ -1,15 +1,22 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
 
-// --- MOCK DATA REMOVED ---
-const LIVE_TARGETS: any[] = [];
-const UPCOMING_DEPLOYMENTS: any[] = [];
+// --- MOCK DATA ---
+const LIVE_TARGETS = [
+    { id: 1, name: "THE DAILY CRUSH", host: "Stake", verified: true, pool: "$5,000 USDC", time: "04h 22m 15s", action: "JOIN CIRCUIT & ENGAGE" },
+    { id: 2, name: "MAX VOLATILITY RUN", host: "Duel", verified: true, pool: "2.5 BTC", time: "1D 18H 45M", action: "VIEW LEADERBOARD" },
+    { id: 3, name: "NEW SLOT DEPLOY", host: "Apex Crypto", verified: false, pool: "10,000 USDT", time: "7D 00H 00M", action: "VIEW STRATEGY GUIDE" },
+];
+
+const UPCOMING_DEPLOYMENTS = [
+    { date: "11/20 (THU)", name: "SSP MASTERY CIRCUIT", access: "Exclusive (Contributor)", focus: "Slots (High RTP)" },
+    { date: "12/01 (MON)", name: "MONTHLY BTC BRAWL", access: "Open Access", focus: "Crash/Dice (High Volatility)" },
+    { date: "12/15 (MON)", name: "CREATOR COLLABORATION", access: "Streamer-Vetted", focus: "Live Casino" },
+];
 
 export const TournamentsPage = () => {
-    const appContext = useContext(AppContext);
 
     return (
         <div className="container mx-auto max-w-6xl p-4 py-10 md:p-12 page-fade-in">
@@ -76,46 +83,43 @@ export const TournamentsPage = () => {
                 <h2 className="font-heading text-2xl text-white mb-8 flex items-center gap-3 border-b border-[#333] pb-4">
                     <span className="text-[#00FFC0]">01 //</span> LIVE ENGAGEMENT (PRIORITY TARGETS)
                 </h2>
-                {LIVE_TARGETS.length > 0 ? (
-                    <div className="space-y-4">
-                        {LIVE_TARGETS.map(target => (
-                            <Card key={target.id} className="p-5 bg-[#14131c] border-[#333] hover:border-[#00FFC0]/50 group transition-all flex flex-col md:flex-row items-center gap-6">
-                                {/* FIX: Added children from old component version */}
-                                <div className="flex-1 w-full">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <h3 className="font-heading text-xl text-white uppercase">{target.name}</h3>
-                                        {target.verified && (
-                                            <span className="px-2 py-0.5 bg-[#00FFC0]/10 text-[#00FFC0] text-[10px] font-bold rounded border border-[#00FFC0]/20 uppercase flex items-center gap-1">
-                                                <Icons.Shield className="h-3 w-3" /> ZAP CERTIFIED
-                                            </span>
-                                        )}
-                                    </div>
-                                    <p className="text-sm text-[#8d8c9e] font-mono uppercase">
-                                        HOST: <span className="text-white">{target.host}</span> <span className="mx-2 text-[#333]">|</span> POOL: <span className="text-[#00FFC0] font-bold">{target.pool}</span>
-                                    </p>
+                <div className="space-y-4">
+                    {LIVE_TARGETS.map(target => (
+                        <Card key={target.id} className="p-5 bg-[#14131c] border-[#333] hover:border-[#00FFC0]/50 group transition-all flex flex-col md:flex-row items-center gap-6">
+                            {/* Info Block */}
+                            <div className="flex-1 w-full">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <h3 className="font-heading text-xl text-white uppercase">{target.name}</h3>
+                                    {target.verified && (
+                                        <span className="px-2 py-0.5 bg-[#00FFC0]/10 text-[#00FFC0] text-[10px] font-bold rounded border border-[#00FFC0]/20 uppercase flex items-center gap-1">
+                                            <Icons.Shield className="h-3 w-3" /> ZAP CERTIFIED
+                                        </span>
+                                    )}
                                 </div>
-                                <div className="bg-[#0A0A0A] p-4 rounded-lg border border-[#333] w-full md:w-auto min-w-[180px] text-center">
-                                    <p className="text-xs font-mono text-[#8d8c9e] uppercase mb-1">TIME TO ZERO</p>
-                                    <p className="font-mono text-xl text-white font-bold tracking-tight flex items-center justify-center gap-2">
-                                        <Icons.Clock className="h-4 w-4 text-red-500 animate-pulse" />
-                                        {target.time}
-                                    </p>
-                                </div>
-                                <Button 
-                                    className={`w-full md:w-auto whitespace-nowrap font-heading uppercase tracking-wider ${target.id === 1 ? 'shadow-[0_0_20px_rgba(0,255,192,0.4)] animate-pulse-glow' : ''}`}
-                                    variant={target.id === 1 ? 'primary' : 'secondary'}
-                                >
-                                    {target.action}
-                                </Button>
-                            </Card>
-                        ))}
-                    </div>
-                ) : (
-                    <Card className="p-8 text-center text-[#8d8c9e] border-dashed border-[#333] bg-transparent">
-                        <Icons.Zap className="h-8 w-8 mx-auto mb-2 opacity-50"/>
-                        <p className="font-mono text-sm">NO LIVE TARGETS ON THE GRID</p>
-                    </Card>
-                )}
+                                <p className="text-sm text-[#8d8c9e] font-mono uppercase">
+                                    HOST: <span className="text-white">{target.host}</span> <span className="mx-2 text-[#333]">|</span> POOL: <span className="text-[#00FFC0] font-bold">{target.pool}</span>
+                                </p>
+                            </div>
+
+                            {/* Countdown Block */}
+                            <div className="bg-[#0A0A0A] p-4 rounded-lg border border-[#333] w-full md:w-auto min-w-[180px] text-center">
+                                <p className="text-xs font-mono text-[#8d8c9e] uppercase mb-1">TIME TO ZERO</p>
+                                <p className="font-mono text-xl text-white font-bold tracking-tight flex items-center justify-center gap-2">
+                                    <Icons.Clock className="h-4 w-4 text-red-500 animate-pulse" />
+                                    {target.time}
+                                </p>
+                            </div>
+
+                            {/* Action Button */}
+                            <Button 
+                                className={`w-full md:w-auto whitespace-nowrap font-heading uppercase tracking-wider ${target.id === 1 ? 'shadow-[0_0_20px_rgba(0,255,192,0.4)] animate-pulse-glow' : ''}`}
+                                variant={target.id === 1 ? 'primary' : 'secondary'}
+                            >
+                                {target.action}
+                            </Button>
+                        </Card>
+                    ))}
+                </div>
             </section>
 
             {/* 2. FUTURE TARGETS */}
@@ -123,43 +127,35 @@ export const TournamentsPage = () => {
                 <h2 className="font-heading text-2xl text-white mb-8 flex items-center gap-3 border-b border-[#333] pb-4">
                     <span className="text-[#00FFC0]">02 //</span> FUTURE TARGETS (UPCOMING DEPLOYMENTS)
                 </h2>
-                {UPCOMING_DEPLOYMENTS.length > 0 ? (
-                    <Card className="p-0 overflow-hidden bg-[#0c0c0e] border-[#333]">
-                        {/* FIX: Added children from old component version */}
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left text-sm">
-                                <thead className="bg-[#14131c] text-xs text-[#8d8c9e] font-mono uppercase">
-                                    <tr>
-                                        <th className="p-4 pl-6">Deployment Date</th>
-                                        <th className="p-4">Event Name</th>
-                                        <th className="p-4">Strategy Access</th>
-                                        <th className="p-4 pr-6 text-right">Required Game Focus</th>
+                <Card className="p-0 overflow-hidden bg-[#0c0c0e] border-[#333]">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left text-sm">
+                            <thead className="bg-[#14131c] text-xs text-[#8d8c9e] font-mono uppercase">
+                                <tr>
+                                    <th className="p-4 pl-6">Deployment Date</th>
+                                    <th className="p-4">Event Name</th>
+                                    <th className="p-4">Strategy Access</th>
+                                    <th className="p-4 pr-6 text-right">Required Game Focus</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#333]">
+                                {UPCOMING_DEPLOYMENTS.map((event, i) => (
+                                    <tr key={i} className="hover:bg-[#14131c] transition-colors">
+                                        <td className="p-4 pl-6 font-mono text-[#00FFC0]">{event.date}</td>
+                                        <td className="p-4 font-heading text-white uppercase">{event.name}</td>
+                                        <td className="p-4 text-[#8d8c9e]">{event.access}</td>
+                                        <td className="p-4 pr-6 text-right font-medium text-white">{event.focus}</td>
                                     </tr>
-                                </thead>
-                                <tbody className="divide-y divide-[#333]">
-                                    {UPCOMING_DEPLOYMENTS.map((event, i) => (
-                                        <tr key={i} className="hover:bg-[#14131c] transition-colors">
-                                            <td className="p-4 pl-6 font-mono text-[#00FFC0]">{event.date}</td>
-                                            <td className="p-4 font-heading text-white uppercase">{event.name}</td>
-                                            <td className="p-4 text-[#8d8c9e]">{event.access}</td>
-                                            <td className="p-4 pr-6 text-right font-medium text-white">{event.focus}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="p-4 bg-[#14131c] border-t border-[#333] text-center">
-                            <Button variant="ghost" className="text-[#00FFC0] hover:text-[#00FFC0] hover:bg-[#00FFC0]/10 font-heading uppercase text-xs tracking-wider">
-                                VIEW FULL DEPLOYMENT CALENDAR →
-                            </Button>
-                        </div>
-                    </Card>
-                 ) : (
-                    <Card className="p-8 text-center text-[#8d8c9e] border-dashed border-[#333] bg-transparent">
-                        <Icons.Clock className="h-8 w-8 mx-auto mb-2 opacity-50"/>
-                        <p className="font-mono text-sm">AWAITING DEPLOYMENT SCHEDULE...</p>
-                    </Card>
-                )}
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="p-4 bg-[#14131c] border-t border-[#333] text-center">
+                        <Button variant="ghost" className="text-[#00FFC0] hover:text-[#00FFC0] hover:bg-[#00FFC0]/10 font-heading uppercase text-xs tracking-wider">
+                            VIEW FULL DEPLOYMENT CALENDAR →
+                        </Button>
+                    </div>
+                </Card>
             </section>
 
             {/* 3. SQUAD PROTOCOL */}

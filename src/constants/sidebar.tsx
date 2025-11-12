@@ -1,4 +1,4 @@
-import { Icons } from '../components/common/icons';
+import { Icons } from '../components/icons';
 import React from 'react';
 
 export const sidebarNavItems = [

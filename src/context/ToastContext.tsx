@@ -65,7 +65,6 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   );
 };
 
-// FIX: Add useToast custom hook for consistency and to resolve export error.
 export const useToast = () => {
     const context = useContext(ToastContext);
     if (context === undefined) {

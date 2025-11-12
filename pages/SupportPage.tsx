@@ -1,16 +1,16 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Toggle } from '../components/Toggle';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
-import { ToastContext } from '../context/ToastContext';
+import { useToast } from '../context/ToastContext';
 
 export const SupportPage = () => {
-    const appContext = useContext(AppContext);
-    const { showToast } = useContext(ToastContext) || { showToast: () => {} };
+    const navigate = useNavigate();
+    const { showToast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
 
     // Form State
@@ -113,7 +113,7 @@ export const SupportPage = () => {
                     <Icons.BookOpen className="h-8 w-8 text-[#00FFC0] mb-4" />
                     <h3 className="font-heading text-base text-white mb-2">KNOWLEDGE BASE</h3>
                     <p className="text-xs text-[#8d8c9e] mb-6 flex-1">Raw Data Library on ZAP mechanics, score pillars, and vetting blueprints.</p>
-                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px]" onClick={() => appContext?.setCurrentPage('Knowledge Base')}>
+                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px]" onClick={() => navigate('/knowledge-base')}>
                         ACCESS LIBRARY →
                     </Button>
                 </Card>
@@ -121,7 +121,7 @@ export const SupportPage = () => {
                     <Icons.Shield className="h-8 w-8 text-blue-500 mb-4" />
                     <h3 className="font-heading text-base text-white mb-2">RESPONSIBLE GAMING</h3>
                     <p className="text-xs text-[#8d8c9e] mb-6 flex-1">Fortified tools for discipline—timers, loss thresholds, and Unplug maneuvers.</p>
-                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px] hover:border-blue-500" onClick={() => appContext?.setCurrentPage('Responsible Gaming')}>
+                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px] hover:border-blue-500" onClick={() => navigate('/responsible-gaming')}>
                         VIEW PROTOCOLS →
                     </Button>
                 </Card>
@@ -129,7 +129,7 @@ export const SupportPage = () => {
                     <Icons.FileText className="h-8 w-8 text-purple-500 mb-4" />
                     <h3 className="font-heading text-base text-white mb-2">LEGAL MANIFESTO</h3>
                     <p className="text-xs text-[#8d8c9e] mb-6 flex-1">Ironclad dossiers: Terms, Privacy, and Commercial Disclosure.</p>
-                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px] hover:border-purple-500" onClick={() => appContext?.setCurrentPage('Terms of Service')}>
+                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px] hover:border-purple-500" onClick={() => navigate('/terms-of-service')}>
                         VIEW FILES →
                     </Button>
                 </Card>
@@ -137,7 +137,7 @@ export const SupportPage = () => {
                     <Icons.Users className="h-8 w-8 text-yellow-500 mb-4" />
                     <h3 className="font-heading text-base text-white mb-2">PARTNERSHIP ARCHIVE</h3>
                     <p className="text-xs text-[#8d8c9e] mb-6 flex-1">Operator synergy docs, referral blueprints, and revenue loop APIs.</p>
-                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px] hover:border-yellow-500" onClick={() => appContext?.setCurrentPage('Affiliate')}>
+                    <Button variant="secondary" className="w-full font-mono uppercase text-[10px] hover:border-yellow-500" onClick={() => navigate('/affiliate')}>
                         ACCESS ARCHIVE →
                     </Button>
                 </Card>

@@ -1,5 +1,4 @@
-
-import React, { createContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useState, useCallback, ReactNode, useContext } from 'react';
 import { Icons } from '../components/icons';
 
 type ToastType = 'success' | 'error' | 'info';
@@ -56,4 +55,13 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       </div>
     </ToastContext.Provider>
   );
+};
+
+// FIX: Export the useToast hook so components can consume the context.
+export const useToast = () => {
+    const context = useContext(ToastContext);
+    if (context === undefined) {
+        throw new Error('useToast must be used within a ToastProvider');
+    }
+    return context;
 };

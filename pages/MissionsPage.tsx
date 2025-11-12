@@ -1,10 +1,10 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icons } from '../components/icons';
 import { ProgressBar } from '../components/ProgressBar';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
-import { AppContext } from '../context/AppContext';
 
 // --- MOCK DATA ---
 const DAILY_MISSIONS = [
@@ -29,11 +29,18 @@ const MASTERY_MISSIONS = [
 ];
 
 export const MissionsPage = () => {
-  const appContext = useContext(AppContext);
+  const navigate = useNavigate();
 
   const MissionCard: React.FC<{ mission: any, isMastery?: boolean }> = ({ mission, isMastery = false }) => {
       const isClaimable = mission.status === 'COMPLETE';
       const isClaimed = mission.status === 'CLAIMED';
+
+      const handleActionClick = () => {
+        if (mission.title.includes('MFA')) navigate('/settings');
+        if (mission.title.includes('LINK')) navigate('/profile');
+        if (mission.title.includes('ALPHA')) navigate('/community');
+        if (mission.title.includes('BONUS')) navigate('/bonus-offers');
+      };
 
       return (
         <Card className={`p-4 md:p-5 flex flex-col md:flex-row items-center gap-4 transition-all duration-300 
@@ -86,11 +93,7 @@ export const MissionsPage = () => {
                         variant="secondary" 
                         className="w-full font-mono uppercase text-xs border-[#333] hover:border-[#00FFC0]/50"
                         disabled={mission.action === 'N/A'}
-                        onClick={() => {
-                            if (mission.title.includes('MFA')) appContext?.setCurrentPage('Command Console');
-                            if (mission.title.includes('LINK')) appContext?.setCurrentPage('Profile');
-                            if (mission.title.includes('ALPHA')) appContext?.setCurrentPage('Alpha Feed');
-                        }}
+                        onClick={handleActionClick}
                     >
                         {mission.action}
                     </Button>
@@ -125,7 +128,7 @@ export const MissionsPage = () => {
                         </div>
                         <ProgressBar progress={85} className="h-2.5" />
                     </div>
-                    <Button variant="ghost" size="icon" className="hidden md:flex text-[#8d8c9e] hover:text-white" onClick={() => appContext?.setCurrentPage('Profile')}>
+                    <Button variant="ghost" size="icon" className="hidden md:flex text-[#8d8c9e] hover:text-white" onClick={() => navigate('/profile')}>
                         <Icons.ChevronRight className="h-5 w-5" />
                     </Button>
                 </div>
@@ -173,10 +176,10 @@ export const MissionsPage = () => {
 
         {/* FOOTER LINKS */}
         <div className="border-t border-[#333] pt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => appContext?.setCurrentPage('Rewards')}>
+            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => navigate('/rewards')}>
                 VIEW PAYOUT HISTORY LOG <Icons.ArrowRight className="h-4 w-4 ml-2" />
             </Button>
-            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => appContext?.setCurrentPage('Rewards')}>
+            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => navigate('/rewards')}>
                 ACCESS ZAP POINTS STORE <Icons.ArrowRight className="h-4 w-4 ml-2" />
             </Button>
         </div>

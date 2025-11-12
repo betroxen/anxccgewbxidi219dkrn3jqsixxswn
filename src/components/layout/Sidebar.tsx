@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Icons } from '../common/icons';
+
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { Icons } from '../icons';
 import { sidebarNavItems } from '../../constants/sidebar';
-import { Button } from '../common/Button';
-import { Input } from '../common/Input';
-import { ProgressBar } from '../common/ProgressBar';
+import { Button } from '../Button';
+import { Input } from '../Input';
+import { ProgressBar } from '../ProgressBar';
 import { useAuth } from '../../auth/AuthContext';
 
 const SidebarLink: React.FC<{ path: string; icon: React.FC<any>; children: React.ReactNode; isCollapsed: boolean; isMobile?: boolean; onClick?: () => void }> = ({ path, icon: Icon, children, isCollapsed, isMobile, onClick }) => {
@@ -38,7 +39,6 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }) => {
     const { user } = useAuth();
-    const location = useLocation();
     
     const handleNavClick = () => {
         setIsMobileOpen(false);
@@ -108,7 +108,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed, i
       <aside className={`hidden md:flex fixed left-0 top-16 bottom-0 flex-col flex-shrink-0 border-r border-[#333] bg-[#0c0c0e] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-40 ${isCollapsed ? 'w-[72px]' : 'w-64'}`}>
         <div className="flex-1 overflow-y-auto custom-scrollbar py-6">
             {!isCollapsed ? (
-                <div className="px-4 mb-6">
+                <div className="px-4 mb-6 relative group">
+                    <Icons.Search className="absolute left-7 top-1/2 -translate-y-1/2 text-[#8d8c9e] h-4 w-4 group-focus-within:text-[#00FFC0] transition-colors" />
                     <Input placeholder="SEARCH INTEL..." className="pl-9 bg-[#1A1A1A] border-[#333] text-xs font-mono h-9 focus:border-[#00FFC0]" />
                 </div>
             ) : (

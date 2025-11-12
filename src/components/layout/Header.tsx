@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button } from '../common/Button';
-import { Icons } from '../common/icons';
-import { ZapLogo } from '../ui/ZapLogo';
+import { Button } from '../Button';
+import { Icons } from '../icons';
+import { ZapLogo } from '../ZapLogo';
 import { useSound } from '../../context/SoundContext';
 import { useAuth } from '../../auth/AuthContext';
 import { useUI } from '../../context/UIContext';

@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AppContext } from '../context/AppContext';
-import { ToastContext } from '../context/ToastContext';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '../context/ToastContext';
 import { Icons } from '../components/icons';
 import { Button } from '../components/Button';
 import { Tooltip } from '../components/Tooltip';
@@ -19,7 +19,6 @@ interface Game {
   variance: number;
   description: string;
   icon: React.FC<any>;
-  page: string;
 }
 
 interface SimulationSession {
@@ -159,7 +158,7 @@ const GameCard: React.FC<{ game: Game; onLaunch: () => void; onViewData: () => v
 );
 
 const SeedVerificationModal: React.FC<{ isOpen: boolean; session: SimulationSession | null; onClose: () => void; onRotate: () => void }> = ({ isOpen, session, onClose, onRotate }) => {
-    const { showToast } = useContext(ToastContext) || { showToast: () => {} };
+    const { showToast } = useToast();
 
     if (!isOpen || !session) return null;
 
@@ -201,8 +200,8 @@ const SeedVerificationModal: React.FC<{ isOpen: boolean; session: SimulationSess
 // --- MAIN PAGE COMPONENT ---
 
 export const StrategySandboxPage = () => {
-    const { showToast } = useContext(ToastContext) || { showToast: () => {} };
-    const appContext = useContext(AppContext);
+    const { showToast } = useToast();
+    const navigate = useNavigate();
 
     const [isLaunching, setIsLaunching] = useState(false);
     const [currentSession, setCurrentSession] = useState<SimulationSession | null>(null);
@@ -210,9 +209,9 @@ export const StrategySandboxPage = () => {
     
     // Static definition of games
     const games: Game[] = [
-      { id: 'plinko', title: 'ZAP Originals: Plinko', variance: 4.5, description: 'High-variance peg drop with 16 payout buckets', icon: Icons.Activity, page: 'Plinko' },
-      { id: 'mines', title: 'ZAP Originals: Mines', variance: 3.5, description: 'Classic 6-sided roll with perfect uniformity', icon: Icons.Bomb, page: 'Mines' },
-      { id: 'dice', title: 'ZAP Originals: Dice', variance: 1.0, description: 'Exponential multiplier with house edge simulation', icon: Icons.Dices, page: 'Dice' }, // No page for this one yet
+      { id: 'plinko', title: 'ZAP Originals: Plinko', variance: 4.5, description: 'High-variance peg drop with 16 payout buckets', icon: Icons.Activity },
+      { id: 'mines', title: 'ZAP Originals: Mines', variance: 3.5, description: 'Classic 6-sided roll with perfect uniformity', icon: Icons.Bomb },
+      { id: 'dice', title: 'ZAP Originals: Dice', variance: 1.0, description: 'Exponential multiplier with house edge simulation', icon: Icons.Dices }, // No page for this one yet
     ];
 
     // Provably Fair Logic
@@ -237,14 +236,21 @@ export const StrategySandboxPage = () => {
         startNewSession(); // Initialize first session on load
     }, []);
 
-    const handleLaunch = async (game: Game) => {
+    const handleLaunch = async (gameId: string) => {
         setIsLaunching(true);
         await new Promise(resolve => setTimeout(resolve, 1200)); // Simulate boot
         setIsLaunching(false);
-        if (appContext && (game.page === 'Mines' || game.page === 'Plinko')) {
-            appContext.setCurrentPage(game.page);
+        
+        const gamePaths: { [key: string]: string } = {
+            mines: '/strategy-sandbox/mines',
+            plinko: '/strategy-sandbox/plinko'
+        };
+
+        const path = gamePaths[gameId];
+        if (path) {
+            navigate(path);
         } else {
-            showToast(`${game.title} simulation not yet available.`, "info");
+            showToast(`${gameId} simulation not yet available.`, "info");
         }
     };
     
@@ -283,8 +289,8 @@ export const StrategySandboxPage = () => {
                              >
                                 <GameCard
                                     game={game}
-                                    onLaunch={() => handleLaunch(game)}
-                                    onViewData={() => appContext?.setCurrentPage('Knowledge Base')}
+                                    onLaunch={() => handleLaunch(game.id)}
+                                    onViewData={() => navigate('/knowledge-base')}
                                 />
                              </motion.div>
                         ))}

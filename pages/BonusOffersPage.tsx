@@ -1,11 +1,15 @@
-
 import React, { useState, useMemo } from 'react';
+// FIX: Import useNavigate for routing
+import { useNavigate } from 'react-router-dom';
 import { mockCasinosData } from '../constants/casinos';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
 
-export const BonusOffersPage = ({ setViewingCasinoId }: { setViewingCasinoId: (id: string | null) => void; }) => {
+// FIX: Removed 'setViewingCasinoId' prop to align with routing structure
+export const BonusOffersPage = () => {
+    // FIX: Initialize useNavigate hook
+    const navigate = useNavigate();
     const [sortBy, setSortBy] = useState<'value' | 'wagering' | 'newest'>('value');
 
     // Enrich mock data with specific bonus metrics for the demo
@@ -121,15 +125,17 @@ export const BonusOffersPage = ({ setViewingCasinoId }: { setViewingCasinoId: (i
                             </div>
 
                             <div className="flex gap-3">
+                                {/* FIX: Use navigate to go to detail page */}
                                 <Button 
-                                    onClick={() => setViewingCasinoId(casino.id)} 
+                                    onClick={() => navigate(`/casinos/${casino.id}`)} 
                                     className="flex-1 font-heading uppercase tracking-wider shadow-[0_0_20px_rgba(0,255,192,0.15)]"
                                 >
                                     CLAIM BOUNTY
                                 </Button>
+                                {/* FIX: Use navigate to go to detail page */}
                                 <Button 
                                     variant="secondary"
-                                    onClick={() => setViewingCasinoId(casino.id)} 
+                                    onClick={() => navigate(`/casinos/${casino.id}`)} 
                                     className="px-3 border-[#333] hover:border-white"
                                     title="View Full Intel"
                                 >

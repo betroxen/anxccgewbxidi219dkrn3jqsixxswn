@@ -1,12 +1,13 @@
 
-import React, { useState, useMemo, useContext, useEffect } from 'react';
-import { AppContext } from '../context/AppContext';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Icons } from '../components/icons';
-import { ToastContext } from '../context/ToastContext';
+import { useToast } from '../context/ToastContext';
 import { ProvablyFairModal } from '../components/ProvablyFairModal';
+import { useSound } from '../context/SoundContext';
 
 type TileState = 'hidden' | 'safe' | 'mine' | 'exploded';
 type GameState = 'idle' | 'playing' | 'cashed_out' | 'busted';
@@ -24,8 +25,9 @@ const ASSETS = {
 };
 
 export const MinesGamePage = () => {
-    const appContext = useContext(AppContext);
-    const { showToast } = useContext(ToastContext) || { showToast: () => {} };
+    const navigate = useNavigate();
+    const { showToast } = useToast();
+    const { playSound } = useSound();
 
     // Simulation Config
     const [startBalance, setStartBalance] = useState<number>(10000);
@@ -51,14 +53,6 @@ export const MinesGamePage = () => {
     useEffect(() => {
         resetGrid();
         setSimBalance(startBalance);
-    }, []);
-
-    // Sync sim balance when start balance changes (only if idle and unused)
-    useEffect(() => {
-        if (gameState === 'idle' && simBalance === startBalance) {
-             // Optional: auto-update sim balance if they haven't played yet
-             // setSimBalance(startBalance); 
-        }
     }, [startBalance]);
 
     const resetGrid = () => {
@@ -82,6 +76,7 @@ export const MinesGamePage = () => {
             showToast("INSUFFICIENT FUNDS FOR DEPLOYMENT.", "error");
             return;
         }
+        playSound('game_start');
         setSimBalance(prev => prev - betAmount);
         setGameState('playing');
         setRevealedCount(0);
@@ -109,11 +104,11 @@ export const MinesGamePage = () => {
             tile.state = 'exploded';
             setGameState('busted');
             revealAll(newGrid);
-            // No toast on loss, keeps flow faster
+            playSound('mine_boom');
         } else {
             tile.state = 'safe';
             setRevealedCount(prev => prev + 1);
-            // Auto-cashout if all safe tiles found
+            playSound('mine_safe', 0.5 + (revealedCount * 0.02));
             if (revealedCount + 1 === 25 - mineCount) {
                 cashout(newGrid);
             }
@@ -127,7 +122,7 @@ export const MinesGamePage = () => {
         setSimBalance(prev => prev + winAmount);
         setGameState('cashed_out');
         revealAll(currentGrid, false);
-        // Optional: Sound effect hook here
+        playSound('cashout');
     };
 
     const revealAll = (currentGrid: Tile[], exploded = true) => {
@@ -168,7 +163,7 @@ export const MinesGamePage = () => {
             {/* HEADER NAV & BALANCE */}
              <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                     <Button variant="ghost" onClick={() => appContext?.setCurrentPage('Strategy Sandbox')} className="text-[#8d8c9e] hover:text-white px-0 md:px-4">
+                     <Button variant="ghost" onClick={() => navigate('/strategy-sandbox')} className="text-[#8d8c9e] hover:text-white px-0 md:px-4">
                         <Icons.ChevronLeft className="h-5 w-5 mr-2" /> SANDBOX HUB
                     </Button>
                     <div className="h-8 w-px bg-[#333] hidden md:block"></div>

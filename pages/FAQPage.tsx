@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/Accordion';
 import { Button } from '../components/Button';
-import { AppContext } from '../context/AppContext';
 import { Icons } from '../components/icons';
 
 export const FAQPage = () => {
-  const appContext = useContext(AppContext);
+  const navigate = useNavigate();
   
   const INTEL_ITEMS = [
     {
@@ -120,7 +121,7 @@ export const FAQPage = () => {
                 </p>
                 <Button 
                     size="lg" 
-                    onClick={() => appContext?.setCurrentPage('Support')} 
+                    onClick={() => navigate('/support')} 
                     className="shadow-[0_0_30px_rgba(0,255,192,0.3)] font-heading uppercase tracking-widest px-8"
                 >
                     ACTIVATE SUPPORT LINE →

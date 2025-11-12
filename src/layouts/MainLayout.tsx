@@ -4,19 +4,19 @@ import { useAuth } from '../auth/AuthContext';
 import { useUI } from '../context/UIContext';
 import { Header } from '../components/layout/Header';
 import { Sidebar } from '../components/layout/Sidebar';
-import { MobileBottomNav } from '../components/layout/MobileBottomNav';
+import { MobileBottomNav } from '../components/MobileBottomNav';
 import { Footer } from '../sections/Footer';
 import { AuthModal } from '../components/modals/AuthModal';
 import { ReviewModal } from '../components/modals/ReviewModal';
-import { FloatingActionButton } from '../components/ui/FloatingActionButton';
-import { Icons } from '../components/common/icons';
+import { FloatingActionButton } from '../components/FloatingActionButton';
+import { Icons } from '../components/icons';
 
 
 export const MainLayout: React.FC = () => {
-    const { user, loading, logout } = useAuth();
+    const { user, loading } = useAuth();
     const { 
-        isAuthModalOpen, closeAuthModal, authModalTab,
-        isReviewModalOpen, closeReviewModal, reviewCasinoId
+        isAuthModalOpen,
+        isReviewModalOpen,
     } = useUI();
     const location = useLocation();
 
@@ -34,14 +34,12 @@ export const MainLayout: React.FC = () => {
         );
     }
     
-    // Determine if footer should be hidden for immersive pages
     const hideFooterFor = ['/dashboard', '/messages', '/strategy-sandbox', '/strategy-sandbox/mines', '/strategy-sandbox/plinko'];
-    const hideFooter = user && hideFooterFor.includes(location.pathname);
+    const hideFooter = user && hideFooterFor.some(path => location.pathname.startsWith(path));
 
     return (
         <div className={`relative min-h-screen w-full max-w-[100vw] bg-[#0A0A0A] text-[#FAFBFF] overflow-x-hidden ${(isAuthModalOpen || isReviewModalOpen || isMobileNavOpen) ? 'modal-open' : ''}`}>
             
-            {/* FIX: AuthModal now gets its state from context, so no props are needed. */}
             <AuthModal />
 
             <Header 
@@ -50,7 +48,6 @@ export const MainLayout: React.FC = () => {
             />
 
             {user ? (
-                // === AUTHENTICATED APP LAYOUT ===
                 <>
                     <div className="flex min-h-screen pt-16">
                         <Sidebar 
@@ -70,14 +67,9 @@ export const MainLayout: React.FC = () => {
 
                     <MobileBottomNav onToggleMenu={() => setIsMobileNavOpen(!isMobileNavOpen)} />
                     <FloatingActionButton />
-                    <ReviewModal
-                        isOpen={isReviewModalOpen}
-                        onClose={closeReviewModal}
-                        initialCasinoId={reviewCasinoId}
-                    />
+                    <ReviewModal />
                 </>
             ) : (
-                 // === PUBLIC LANDING LAYOUT ===
                 <div className="flex flex-col min-h-screen pt-16">
                     <main className="flex-1 w-full animate-depth-in">
                         <Outlet />

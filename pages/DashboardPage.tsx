@@ -1,10 +1,10 @@
-
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+// FIX: Import useNavigate for routing
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { ProgressBar } from '../components/ProgressBar';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
 import { Toggle } from '../components/Toggle';
 
 // Mock Data specific to V4.0 Dashboard Protocol
@@ -20,14 +20,16 @@ const ACTIVE_MISSIONS = [
     { id: 2, title: "WEEKLY WAGER CHALLENGE", reward: "25 ZP", progress: 60, status: "ACTIVE", description: "Wager $500 on verified >96% RTP slots." },
 ];
 
-export const DashboardPage = ({ setViewingCasinoId }: { setViewingCasinoId?: (id: string | null) => void; }) => {
-    const appContext = useContext(AppContext);
+// FIX: Removed unused 'setViewingCasinoId' prop
+export const DashboardPage = () => {
+    // FIX: Use useNavigate for navigation
+    const navigate = useNavigate();
     const [quickAesthetic, setQuickAesthetic] = useState(true); // True = Dark Ops
     const [quickData, setQuickData] = useState(true); // True = Percentage
 
     const handleViewDetails = (id: string) => {
-        if (setViewingCasinoId) setViewingCasinoId(id);
-        else if (appContext?.setViewingCasinoId) appContext.setViewingCasinoId(id);
+        // FIX: Navigate to the casino detail page
+        navigate(`/casinos/${id}`);
     };
 
     return (
@@ -44,10 +46,12 @@ export const DashboardPage = ({ setViewingCasinoId }: { setViewingCasinoId?: (id
                     </p>
                 </div>
                 <div className="flex gap-2 mt-4 md:mt-0">
-                    <Button variant="secondary" size="sm" onClick={() => appContext?.setCurrentPage('Missions')} className="font-heading uppercase text-xs">
+                    {/* FIX: Use navigate for Missions page */}
+                    <Button variant="secondary" size="sm" onClick={() => navigate('/missions')} className="font-heading uppercase text-xs">
                         <Icons.Target className="w-4 h-4 mr-2 text-[#00FFC0]"/> DAILY OPS
                     </Button>
-                    <Button size="sm" onClick={() => appContext?.setCurrentPage('Command Console')} className="shadow-[0_0_15px_rgba(0,255,192,0.2)] font-heading uppercase text-xs">
+                    {/* FIX: Use navigate for Settings page (Command Console) */}
+                    <Button size="sm" onClick={() => navigate('/settings')} className="shadow-[0_0_15px_rgba(0,255,192,0.2)] font-heading uppercase text-xs">
                         <Icons.Settings className="w-4 h-4 mr-2"/> CONSOLE
                     </Button>
                 </div>
@@ -103,7 +107,8 @@ export const DashboardPage = ({ setViewingCasinoId }: { setViewingCasinoId?: (id
                              <h2 className="font-heading text-xl text-white uppercase flex items-center gap-2">
                                 <Icons.Target className="h-5 w-5 text-[#00FFC0]" /> ACTIVE MISSIONS
                             </h2>
-                            <Button variant="link" onClick={() => appContext?.setCurrentPage('Missions')} className="text-xs font-mono">VIEW ALL →</Button>
+                            {/* FIX: Use navigate for Missions page */}
+                            <Button variant="link" onClick={() => navigate('/missions')} className="text-xs font-mono">VIEW ALL →</Button>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {ACTIVE_MISSIONS.map(mission => (
@@ -228,7 +233,7 @@ export const DashboardPage = ({ setViewingCasinoId }: { setViewingCasinoId?: (id
                         </div>
                         <Button 
                             variant="secondary" 
-                            onClick={() => appContext?.setCurrentPage('Command Console')}
+                            onClick={() => navigate('/settings')}
                             className="w-full mt-4 border-[#333] text-[#8d8c9e] hover:text-white hover:border-[#00FFC0] transition-colors font-mono uppercase text-xs"
                         >
                             FULL CONSOLE ACCESS

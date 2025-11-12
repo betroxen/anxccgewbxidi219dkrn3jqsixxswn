@@ -72,7 +72,6 @@ import {
   Gem,
   Terminal,
   RefreshCw,
-  // FIX: Import the 'Copy' icon.
   Copy,
 } from 'lucide-react';
 
@@ -148,6 +147,5 @@ export const Icons = {
   Gem,
   Terminal,
   RefreshCw,
-  // FIX: Export the 'Copy' icon.
   Copy,
 };

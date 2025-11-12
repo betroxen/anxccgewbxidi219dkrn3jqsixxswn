@@ -1,15 +1,14 @@
-
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
 import { ProgressBar } from '../components/ProgressBar';
-import { AppContext } from '../context/AppContext';
-import { ToastContext } from '../context/ToastContext';
+import { useToast } from '../context/ToastContext';
 
 export const RewardsPage = () => {
-    const appContext = useContext(AppContext);
-    const { showToast } = useContext(ToastContext) || { showToast: () => {} };
+    const navigate = useNavigate();
+    const { showToast } = useToast();
     const [referralCopied, setReferralCopied] = useState(false);
 
     const handleCopyReferral = () => {
@@ -62,7 +61,7 @@ export const RewardsPage = () => {
                     <div className="absolute top-0 right-0 p-2 opacity-10"><Icons.Clock className="w-16 h-16 text-purple-500"/></div>
                     <p className="text-xs text-[#8d8c9e] font-heading uppercase tracking-widest mb-2">NEXT DISBURSEMENT</p>
                     <p className="font-mono text-3xl text-white font-bold tracking-tight">14D 06H 44M</p>
-                    <button onClick={() => appContext?.setCurrentPage('Command Console')} className="text-xs text-[#00FFC0] font-mono mt-2 flex items-center gap-1 hover:underline">
+                    <button onClick={() => navigate('/settings')} className="text-xs text-[#00FFC0] font-mono mt-2 flex items-center gap-1 hover:underline">
                         [UPDATE WALLET ADDRESS]
                     </button>
                 </Card>
@@ -158,7 +157,7 @@ export const RewardsPage = () => {
                 <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]">
                     VIEW FULL SSP PAYOUT HISTORY LOG <Icons.ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
-                <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => appContext?.setCurrentPage('Command Console')}>
+                <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => navigate('/settings')}>
                     ACCESS SECURITY CIRCUIT <Icons.ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
             </div>

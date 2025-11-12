@@ -1,9 +1,8 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
 
 // --- MOCK DATA ---
 const LIVE_TARGETS = [
@@ -19,7 +18,6 @@ const UPCOMING_DEPLOYMENTS = [
 ];
 
 export const TournamentsPage = () => {
-    const appContext = useContext(AppContext);
 
     return (
         <div className="container mx-auto max-w-6xl p-4 py-10 md:p-12 page-fade-in">

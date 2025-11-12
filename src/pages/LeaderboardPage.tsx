@@ -1,14 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
 
-// Mock Data removed
-const MOCK_LEADERBOARD: any[] = [];
+// Extended Mock Data for V4.0
+const MOCK_LEADERBOARD = [
+    { rank: 1, handle: "CryptoWhale99", zp: 45250, vprScore: 5.0, level: 98, tier: "ELITE" },
+    { rank: 2, handle: "SatoshiDreamer", zp: 42100, vprScore: 4.8, level: 95, tier: "ELITE" },
+    { rank: 3, handle: "DegenKing", zp: 38900, vprScore: 4.9, level: 91, tier: "VETERAN" },
+    { rank: 4, handle: "MoonShot", zp: 35400, vprScore: 4.6, level: 88, tier: "VETERAN" },
+    { rank: 5, handle: "HodlGang", zp: 31200, vprScore: 4.7, level: 85, tier: "RUNNER" },
+    { rank: 6, handle: "RTP_Hunter", zp: 28500, vprScore: 4.4, level: 82, tier: "RUNNER" },
+    { rank: 7, handle: "ZeroEdge", zp: 26100, vprScore: 4.9, level: 79, tier: "RUNNER" },
+];
 
 const USER_STATS = {
-    rank: null,
+    rank: 1337,
     handle: "DegenGambler",
     zp: 1240,
     vprScore: 4.5,
@@ -16,10 +24,13 @@ const USER_STATS = {
     tier: "INTEL ANALYST"
 };
 
-const CONTESTS: any[] = [];
+const CONTESTS = [
+    { id: 1, title: "WEEKLY VPR SUBMISSION", time: "3D 14H", rank: 213, pool: "5,000 ZP", action: "SUBMIT VPR" },
+    { id: 2, title: "TRUE RTP HUNT", time: "12H 44M", rank: 45, pool: "1 BTC BONUS", action: "LAUNCH FINDER" },
+];
 
 export const LeaderboardPage = () => {
-    const appContext = useContext(AppContext);
+    const navigate = useNavigate();
     const [activeCircuit, setActiveCircuit] = useState<'ZP' | 'XP' | 'VPR'>('ZP');
 
     const getRankStyles = (rank: number) => {
@@ -63,7 +74,7 @@ export const LeaderboardPage = () => {
                     </div>
                     <div className="p-4 bg-[#14131c] rounded-lg border border-[#333]">
                         <div className="text-xs text-[#8d8c9e] font-heading uppercase mb-1">GLOBAL RANK</div>
-                        <div className="font-mono text-3xl text-white font-bold">{USER_STATS.rank ? `#${USER_STATS.rank.toLocaleString()}` : 'N/A'}</div>
+                        <div className="font-mono text-3xl text-white font-bold">#{USER_STATS.rank.toLocaleString()}</div>
                     </div>
                     <div className="p-4 bg-[#14131c] rounded-lg border border-[#333]">
                          <div className="text-xs text-[#8d8c9e] font-heading uppercase mb-1">CURRENT ZP STACK</div>
@@ -103,7 +114,6 @@ export const LeaderboardPage = () => {
                     {/* LEADERBOARD TABLE */}
                     <Card className="p-0 overflow-hidden bg-[#0c0c0e] border-[#333] animate-tabSlideIn">
                         <div className="overflow-x-auto">
-                           {MOCK_LEADERBOARD.length > 0 ? (
                             <table className="w-full text-left">
                                 <thead className="bg-[#14131c] border-b border-[#333]">
                                     <tr>
@@ -142,14 +152,30 @@ export const LeaderboardPage = () => {
                                             </td>
                                         </tr>
                                     ))}
+                                    {/* USER ROW (Contextual) */}
+                                    <tr className="bg-[#00FFC0]/5 border-t-2 border-[#00FFC0]/20">
+                                        <td className="p-4 pl-6">
+                                             <div className="h-8 w-auto px-2 rounded-md flex items-center justify-center font-bold font-mono bg-[#00FFC0] text-black">
+                                                #{USER_STATS.rank.toLocaleString()}
+                                            </div>
+                                        </td>
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="font-bold text-white">{USER_STATS.handle} <span className="text-[#00FFC0] text-xs ml-2">(YOU)</span></div>
+                                            </div>
+                                        </td>
+                                        <td className="p-4 text-right font-mono text-[#00FFC0] font-bold text-lg">
+                                            {USER_STATS.zp.toLocaleString()}
+                                        </td>
+                                        <td className="p-4 text-center font-mono text-[#8d8c9e] hidden md:table-cell">
+                                            {USER_STATS.vprScore.toFixed(1)}
+                                        </td>
+                                        <td className="p-4 pr-6 text-right font-mono text-[#00FFC0] hidden sm:table-cell">
+                                            LVL {USER_STATS.level}
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
-                             ) : (
-                                <div className="text-center py-20 text-[#8d8c9e]">
-                                    <Icons.Trophy className="h-12 w-12 mx-auto mb-4 opacity-50"/>
-                                    <p className="font-mono text-sm">AWAITING LEADERBOARD DATA...</p>
-                                </div>
-                            )}
                         </div>
                     </Card>
                 </div>
@@ -160,49 +186,41 @@ export const LeaderboardPage = () => {
                         <h2 className="font-heading text-xl text-white mb-4 flex items-center gap-2 uppercase">
                             <Icons.Flag className="h-5 w-5 text-red-500" /> GLOBAL CONTEST CIRCUIT
                         </h2>
-                        {CONTESTS.length > 0 ? (
-                            <div className="space-y-4">
-                                {CONTESTS.map(contest => (
-                                    // FIX: Added children to Card component
-                                    <Card key={contest.id} className="p-5 bg-[#14131c] border-[#333] hover:border-[#00FFC0]/50 group">
-                                        <div className="flex justify-between items-start mb-4">
-                                            <h3 className="font-heading text-white text-sm uppercase">{contest.title}</h3>
-                                            <span className="font-mono text-red-400 text-xs bg-red-950/30 px-2 py-1 rounded border border-red-900/50 flex items-center gap-1">
-                                                <Icons.Clock className="h-3 w-3" /> {contest.time}
-                                            </span>
+                        <div className="space-y-4">
+                            {CONTESTS.map(contest => (
+                                <Card key={contest.id} className="p-5 bg-[#14131c] border-[#333] hover:border-[#00FFC0]/50 group">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <h3 className="font-heading text-white text-sm uppercase">{contest.title}</h3>
+                                        <span className="font-mono text-red-400 text-xs bg-red-950/30 px-2 py-1 rounded border border-red-900/50 flex items-center gap-1">
+                                            <Icons.Clock className="h-3 w-3" /> {contest.time}
+                                        </span>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2 mb-4 text-xs font-mono">
+                                        <div className="bg-[#0A0A0A] p-2 rounded border border-[#333]">
+                                            <span className="text-[#8d8c9e] block mb-1">YOUR RANK</span>
+                                            <span className="text-white font-bold">#{contest.rank}</span>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-2 mb-4 text-xs font-mono">
-                                            <div className="bg-[#0A0A0A] p-2 rounded border border-[#333]">
-                                                <span className="text-[#8d8c9e] block mb-1">YOUR RANK</span>
-                                                <span className="text-white font-bold">#{contest.rank}</span>
-                                            </div>
-                                            <div className="bg-[#0A0A0A] p-2 rounded border border-[#333]">
-                                                <span className="text-[#8d8c9e] block mb-1">REWARD POOL</span>
-                                                <span className="text-[#00FFC0] font-bold">{contest.pool}</span>
-                                            </div>
+                                        <div className="bg-[#0A0A0A] p-2 rounded border border-[#333]">
+                                            <span className="text-[#8d8c9e] block mb-1">REWARD POOL</span>
+                                            <span className="text-[#00FFC0] font-bold">{contest.pool}</span>
                                         </div>
-                                        <Button className="w-full font-heading uppercase text-xs tracking-wider shadow-[0_0_15px_rgba(0,255,192,0.15)]">
-                                            {contest.action}
-                                        </Button>
-                                    </Card>
-                                ))}
-                            </div>
-                        ) : (
-                             <Card className="p-8 text-center text-[#8d8c9e] border-dashed border-[#333] bg-transparent">
-                                <Icons.Flag className="h-8 w-8 mx-auto mb-2 opacity-50"/>
-                                <p className="font-mono text-sm">NO ACTIVE CONTESTS</p>
-                            </Card>
-                        )}
+                                    </div>
+                                    <Button className="w-full font-heading uppercase text-xs tracking-wider shadow-[0_0_15px_rgba(0,255,192,0.15)]">
+                                        {contest.action}
+                                    </Button>
+                                </Card>
+                            ))}
+                        </div>
                     </div>
 
                     {/* QUICK LINKS */}
                     <Card className="p-6 bg-[#0c0c0e] border-[#333]">
                         <h3 className="font-heading text-white uppercase mb-4 text-sm">REWARD LOG & STATUS</h3>
                         <div className="space-y-3">
-                            <Button variant="secondary" onClick={() => appContext?.setCurrentPage('Rewards')} className="w-full justify-between text-xs font-mono uppercase group">
+                            <Button variant="secondary" onClick={() => navigate('/rewards')} className="w-full justify-between text-xs font-mono uppercase group">
                                 VIEW SSP PAYOUT LOG <Icons.ChevronRight className="h-4 w-4 text-[#333] group-hover:text-[#00FFC0]" />
                             </Button>
-                            <Button variant="secondary" onClick={() => appContext?.setCurrentPage('Knowledge Base')} className="w-full justify-between text-xs font-mono uppercase group">
+                            <Button variant="secondary" onClick={() => navigate('/knowledge-base')} className="w-full justify-between text-xs font-mono uppercase group">
                                 CONTRIBUTION GUIDE <Icons.ChevronRight className="h-4 w-4 text-[#333] group-hover:text-[#00FFC0]" />
                             </Button>
                         </div>

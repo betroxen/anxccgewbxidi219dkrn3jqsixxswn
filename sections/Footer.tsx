@@ -1,21 +1,21 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
 import { ZapLogo } from '../components/ZapLogo';
 
 export const Footer = () => {
-  const appContext = useContext(AppContext);
+  const navigate = useNavigate();
 
-  const handleLinkClick = (page: string) => {
-    appContext?.setCurrentPage(page);
+  const handleLinkClick = (path: string) => {
+    navigate(path);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const FooterLink: React.FC<{ page: string; children: React.ReactNode }> = ({ page, children }) => (
+  const FooterLink: React.FC<{ path: string; children: React.ReactNode }> = ({ path, children }) => (
       <li>
           <button 
-              onClick={() => handleLinkClick(page)} 
+              onClick={() => handleLinkClick(path)} 
               className="group flex items-center gap-2 text-[#8d8c9e] hover:text-[#00FFC0] transition-all duration-200 ease-out hover:translate-x-2 py-1.5 text-sm font-medium text-left"
           >
               <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-[#00FFC0] font-mono font-bold leading-none">{'>'}</span>
@@ -42,7 +42,7 @@ export const Footer = () => {
           {/* Column 1: Command Identity (5/12 width) */}
           <div className="md:col-span-5 space-y-8">
             {/* Kinetic Logo Lockup */}
-            <button onClick={() => handleLinkClick('Dashboard')} className="flex items-center gap-4 group">
+            <button onClick={() => handleLinkClick('/dashboard')} className="flex items-center gap-4 group">
               <ZapLogo />
               <div className="text-left">
                   <span className="font-heading text-3xl font-bold text-white tracking-wider block leading-none group-hover:text-glow transition-all duration-300">ZAP</span>
@@ -78,10 +78,10 @@ export const Footer = () => {
                     <Icons.Database className="h-3 w-3 text-[#00FFC0]" /> INTEL CORE
                 </h3>
                 <ul className="space-y-3">
-                  <FooterLink page="Dashboard">Dashboard HQ</FooterLink>
-                  <FooterLink page="Casino Directory">Operator Grid</FooterLink>
-                  <FooterLink page="Bonus Offers">Active Bounties</FooterLink>
-                  <FooterLink page="RTP Tracker">Live RTP Feed</FooterLink>
+                  <FooterLink path="/dashboard">Dashboard HQ</FooterLink>
+                  <FooterLink path="/casinos">Operator Grid</FooterLink>
+                  <FooterLink path="/bonus-offers">Active Bounties</FooterLink>
+                  <FooterLink path="/rtp-tracker">Live RTP Feed</FooterLink>
                 </ul>
               </div>
 
@@ -91,11 +91,11 @@ export const Footer = () => {
                     <Icons.BookOpen className="h-3 w-3 text-[#00FFC0]" /> PROTOCOLS
                 </h3>
                 <ul className="space-y-3">
-                  <FooterLink page="About Us">Mission Brief</FooterLink>
-                  <FooterLink page="Review Methodology">Scoring Algo</FooterLink>
-                  <FooterLink page="Provably Fair">Fairness Audit</FooterLink>
-                  <FooterLink page="Responsible Gaming">Safety Limits</FooterLink>
-                  <FooterLink page="Support">Help Channel</FooterLink>
+                  <FooterLink path="/about-us">Mission Brief</FooterLink>
+                  <FooterLink path="/review-methodology">Scoring Algo</FooterLink>
+                  <FooterLink path="/provably-fair">Fairness Audit</FooterLink>
+                  <FooterLink path="/responsible-gaming">Safety Limits</FooterLink>
+                  <FooterLink path="/support">Help Channel</FooterLink>
                 </ul>
               </div>
 
@@ -105,10 +105,10 @@ export const Footer = () => {
                     <Icons.Shield className="h-3 w-3 text-[#00FFC0]" /> COMPLIANCE
                 </h3>
                 <ul className="space-y-3">
-                  <FooterLink page="Terms of Service">Terms of Engagement</FooterLink>
-                  <FooterLink page="Privacy Policy">Data Privacy</FooterLink>
-                  <FooterLink page="Commercial Disclosure">Commercial Intel</FooterLink>
-                   <FooterLink page="Partner Vetting">Vetting Standards</FooterLink>
+                  <FooterLink path="/terms-of-service">Terms of Engagement</FooterLink>
+                  <FooterLink path="/privacy-policy">Data Privacy</FooterLink>
+                  <FooterLink path="/commercial-disclosure">Commercial Intel</FooterLink>
+                   <FooterLink path="/partner-vetting">Vetting Standards</FooterLink>
                 </ul>
               </div>
           </div>

@@ -1,9 +1,9 @@
 
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
-import { AppContext } from '../context/AppContext';
 
 // Extended Mock Data for V4.0
 const MOCK_LEADERBOARD = [
@@ -31,7 +31,7 @@ const CONTESTS = [
 ];
 
 export const LeaderboardPage = () => {
-    const appContext = useContext(AppContext);
+    const navigate = useNavigate();
     const [activeCircuit, setActiveCircuit] = useState<'ZP' | 'XP' | 'VPR'>('ZP');
 
     const getRankStyles = (rank: number) => {
@@ -218,10 +218,10 @@ export const LeaderboardPage = () => {
                     <Card className="p-6 bg-[#0c0c0e] border-[#333]">
                         <h3 className="font-heading text-white uppercase mb-4 text-sm">REWARD LOG & STATUS</h3>
                         <div className="space-y-3">
-                            <Button variant="secondary" onClick={() => appContext?.setCurrentPage('Rewards')} className="w-full justify-between text-xs font-mono uppercase group">
+                            <Button variant="secondary" onClick={() => navigate('/rewards')} className="w-full justify-between text-xs font-mono uppercase group">
                                 VIEW SSP PAYOUT LOG <Icons.ChevronRight className="h-4 w-4 text-[#333] group-hover:text-[#00FFC0]" />
                             </Button>
-                            <Button variant="secondary" onClick={() => appContext?.setCurrentPage('Knowledge Base')} className="w-full justify-between text-xs font-mono uppercase group">
+                            <Button variant="secondary" onClick={() => navigate('/knowledge-base')} className="w-full justify-between text-xs font-mono uppercase group">
                                 CONTRIBUTION GUIDE <Icons.ChevronRight className="h-4 w-4 text-[#333] group-hover:text-[#00FFC0]" />
                             </Button>
                         </div>

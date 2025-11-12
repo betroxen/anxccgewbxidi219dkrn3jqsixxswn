@@ -1,5 +1,6 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
+// FIX: Import useNavigate for routing
+import { useNavigate } from 'react-router-dom';
 import { mockCasinosData } from '../constants/casinos';
 import { Icons } from '../components/icons';
 import { Card } from '../components/Card';
@@ -8,7 +9,8 @@ import { Input } from '../components/Input';
 import { Toggle } from '../components/Toggle';
 import { SkeletonCard } from '../components/SkeletonCard';
 
-export const CasinoDirectoryPage = ({ setViewingCasinoId }: { setViewingCasinoId: (id: string | null) => void; }) => {
+// FIX: Removed 'setViewingCasinoId' prop to align with routing structure
+export const CasinoDirectoryPage = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('rating');
@@ -16,6 +18,8 @@ export const CasinoDirectoryPage = ({ setViewingCasinoId }: { setViewingCasinoId
     const [minRating, setMinRating] = useState(0);
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
     const [showVerifiedOnly, setShowVerifiedOnly] = useState(false);
+    // FIX: Initialize useNavigate hook
+    const navigate = useNavigate();
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -273,8 +277,9 @@ export const CasinoDirectoryPage = ({ setViewingCasinoId }: { setViewingCasinoId
 
                                         {/* Action Footer */}
                                         <div className="p-5 pt-0 mt-auto relative z-10">
+                                            {/* FIX: Use navigate to go to detail page */}
                                             <Button 
-                                                onClick={() => setViewingCasinoId(casino.id)} 
+                                                onClick={() => navigate(`/casinos/${casino.id}`)} 
                                                 className={`w-full font-heading uppercase text-xs tracking-widest shadow-none border ${isEternalCrown ? 'bg-[#00FFC0] text-black border-[#00FFC0] hover:shadow-[0_0_30px_rgba(0,255,192,0.4)]' : 'border-[#00FFC0]/30 hover:shadow-[0_0_20px_rgba(0,255,192,0.2)]'}`}
                                             >
                                                 ACCESS INTEL UNIT →

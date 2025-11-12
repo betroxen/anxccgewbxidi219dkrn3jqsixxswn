@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../context/ToastContext';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Icons } from '../components/icons';
 import { ProgressBar } from '../components/ProgressBar';
 import { Input } from '../components/Input';
+import { useToast } from '../context/ToastContext';
 import { mockCasinosData } from '../constants/casinos';
 
 interface LinkedAccount {
@@ -48,6 +48,7 @@ export const ProfilePage = () => {
     };
 
     const cycleProfileImage = () => {
+        // Mock functionality to cycle through a few placeholder images
         const images = [
             'https://placehold.co/150x150/00FFC0/000000?text=DG',
             'https://placehold.co/150x150/8b5cf6/000000?text=DG',
@@ -79,14 +80,15 @@ export const ProfilePage = () => {
             casinoName: casino.name,
             username: linkForm.username,
             email: linkForm.email,
-            verified: false,
-            public: false
+            verified: false, // Pending verification in real app
+            public: false // Default to private
         };
 
         setLinkedAccounts([...linkedAccounts, newAccount]);
         setLinkForm({ targetCasino: '', username: '', email: '', attestation: false });
         showToast(`LINK INITIATED: Verifying ${casino.name} account...`, "info");
         
+        // Simulate verification success after 2s
         setTimeout(() => {
              setLinkedAccounts(prev => prev.map(acc => acc.id === newAccount.id ? { ...acc, verified: true } : acc));
              showToast(`LINK ESTABLISHED: ${casino.name} account verified.`, "success");
@@ -111,6 +113,7 @@ export const ProfilePage = () => {
     return (
         <div className="container mx-auto max-w-7xl p-4 py-6 md:p-12 page-fade-in">
             
+            {/* 1. HERO SECTION (Banner & Bio) */}
             <Card className="relative overflow-hidden p-0 mb-8 group/banner border-[#333333]">
                 <div className={`h-48 ${bannerClasses} transition-all duration-500`}>
                      <button 
@@ -149,7 +152,7 @@ export const ProfilePage = () => {
                                  <Icons.Share className="w-4 h-4 mr-2" /> SHARE PROFILE INTEL
                              </Button>
                              <Button variant="secondary" size="sm" onClick={() => navigate('/settings')}>
-                                 <Icons.Settings className="w-4 h-4 mr-2" /> ACCESS COMMAND CONSOLE
+                                 <Icons.Settings className="w-4 w-4 mr-2" /> ACCESS COMMAND CONSOLE
                              </Button>
                         </div>
                     </div>
@@ -157,7 +160,10 @@ export const ProfilePage = () => {
             </Card>
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                {/* LEFT COLUMN (Main Intel) */}
                 <div className="xl:col-span-2 space-y-8">
+                    
+                    {/* STATS GRID */}
                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                          <Card className="p-5 text-center border-[#00FFC0]/20 bg-[#00FFC0]/5">
                             <Icons.Zap className="w-6 h-6 text-[#00FFC0] mx-auto mb-2" />
@@ -181,6 +187,7 @@ export const ProfilePage = () => {
                         </Card>
                     </div>
 
+                    {/* 5. OPERATOR LINKAGE CIRCUIT */}
                     <Card className="p-6 md:p-8 border-[#00FFC0]/20">
                         <h2 className="font-heading text-xl text-white mb-6 flex items-center gap-3 uppercase tracking-wider border-b border-[#333333] pb-3">
                             <Icons.Link className="h-5 w-5 text-[#00FFC0]" /> 5. OPERATOR LINKAGE CIRCUIT (VPR Verification)
@@ -188,6 +195,8 @@ export const ProfilePage = () => {
                         <p className="text-[#8d8c9e] mb-6 text-sm">
                             Link your external operator accounts to simplify VPR submissions and verify your play history for ZP missions.
                         </p>
+
+                        {/* ACTIVE CONNECTIONS LIST */}
                         {linkedAccounts.length > 0 && (
                             <div className="mb-8 space-y-3">
                                 <h3 className="text-xs font-mono text-[#00FFC0] uppercase mb-2">// ACTIVE LINKS ({linkedAccounts.length}/50)</h3>
@@ -222,6 +231,8 @@ export const ProfilePage = () => {
                                 ))}
                             </div>
                         )}
+
+                        {/* LINKAGE FORM */}
                         <form onSubmit={handleLinkAccount} className="bg-[#0c0c0e] p-4 md:p-6 rounded-xl border border-[#333333]">
                             <h3 className="text-sm font-heading text-white uppercase mb-4">Initiate New Link</h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -261,6 +272,7 @@ export const ProfilePage = () => {
                                     />
                                 </div>
                             </div>
+
                             <label className="flex items-start gap-3 cursor-pointer group mb-6 bg-[#1A1A1A] p-3 rounded-lg border border-[#333333]">
                                 <input 
                                     type="checkbox" 
@@ -273,25 +285,55 @@ export const ProfilePage = () => {
                                     OWNERSHIP PROTOCOL: I confirm that I am the sole, legitimate owner of the linked casino account and am willing to provide verifiable proof of ownership if requested by the ZAP compliance team.
                                 </div>
                             </label>
+
                             <div className="bg-red-950/20 border border-red-900/30 p-3 rounded-lg flex items-start gap-3 mb-6">
                                 <Icons.AlertTriangle className="h-5 w-5 text-red-500 shrink-0" />
                                 <p className="text-xs text-red-300 leading-relaxed">
                                     <strong className="text-red-500 font-heading uppercase">CRITICAL WARNING:</strong> Providing false account information or claiming ownership of an account you do not own is a severe breach of ZAP's integrity contract. This action will result in the immediate suspension of your ZAP Account and the permanent forfeiture of all accumulated ZP and pending SSP Rewards.
                                 </p>
                             </div>
+
                             <Button type="submit" className="w-full font-heading uppercase tracking-wider" disabled={!linkForm.attestation}>
                                 LINK ACCOUNT & INITIATE VERIFICATION
                             </Button>
                         </form>
                     </Card>
+
+                     {/* Activity Feed */}
+                     <Card className="p-6">
+                        <h3 className="font-heading text-xl text-white mb-6 uppercase">Recent Activity</h3>
+                        <div className="space-y-6">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="flex gap-4 pb-6 border-b border-[#333333] last:border-0 last:pb-0">
+                                    <div className="bg-[#222222] p-3 rounded-full h-fit shrink-0 border border-[#333333]">
+                                        {i === 1 ? <Icons.Star className="w-4 h-4 text-[#00FFC0]" /> : 
+                                         i === 2 ? <Icons.Target className="w-4 h-4 text-blue-400" /> : 
+                                         <Icons.MessageSquare className="w-4 h-4 text-purple-400" />}
+                                    </div>
+                                    <div>
+                                        <p className="text-white font-medium text-sm">
+                                            {i === 1 ? 'Reviewed Stake Casino' : 
+                                             i === 2 ? 'Completed "Daily Login" Mission' : 
+                                             'Commented on "Hidden RTP" thread'}
+                                        </p>
+                                        <p className="text-xs text-[#8d8c9e] mt-1 font-mono">{i} day{i > 1 ? 's' : ''} ago</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
                 </div>
 
+                {/* RIGHT COLUMN (Sidebar) */}
                 <div className="space-y-8">
+                    
+                    {/* 4. VERIFICATION MATRIX */}
                     <Card className="p-6 border-[#00FFC0]/20 bg-[#0c0c0e]">
                          <h2 className="font-heading text-lg text-white mb-6 flex items-center gap-3 uppercase tracking-wider border-b border-[#333333] pb-3">
                             <Icons.Shield className="h-5 w-5 text-[#00FFC0]" /> 4. VERIFICATION MATRIX
                         </h2>
                         <div className="space-y-4">
+                            {/* MFA Status */}
                             <div className="flex items-center justify-between p-3 bg-[#121212] rounded-lg border border-[#333333]">
                                 <div>
                                     <p className="text-xs text-[#8d8c9e] font-mono uppercase mb-1">MFA Status</p>
@@ -303,6 +345,8 @@ export const ProfilePage = () => {
                                     VIEW CIRCUIT
                                 </Button>
                             </div>
+
+                             {/* SSP Wallet */}
                              <div className="flex items-center justify-between p-3 bg-[#121212] rounded-lg border border-[#333333]">
                                 <div>
                                     <p className="text-xs text-[#8d8c9e] font-mono uppercase mb-1">SSP Wallet</p>
@@ -314,6 +358,8 @@ export const ProfilePage = () => {
                                     UPDATE
                                 </Button>
                             </div>
+
+                            {/* Discord Handle */}
                             <div className="flex items-center justify-between p-3 bg-[#121212] rounded-lg border border-[#333333]">
                                 <div>
                                     <p className="text-xs text-[#8d8c9e] font-mono uppercase mb-1">Discord Handle</p>
@@ -325,6 +371,28 @@ export const ProfilePage = () => {
                                     DISCONNECT
                                 </Button>
                             </div>
+                        </div>
+                    </Card>
+
+                     {/* Level Progress */}
+                    <Card className="p-6">
+                        <div className="flex justify-between items-center mb-2">
+                             <h3 className="font-heading text-lg text-white uppercase">Circuit Status</h3>
+                             <span className="text-[#00FFC0] font-bold font-mono">4,250 / 5,000 XP</span>
+                        </div>
+                        <ProgressBar progress={85} className="h-3 mb-4" />
+                        <p className="text-sm text-[#8d8c9e] font-mono">// 750 XP UNTIL LEVEL 43 INITIALIZATION.</p>
+                    </Card>
+
+                    {/* Badges */}
+                    <Card className="p-6">
+                        <h3 className="font-heading text-lg text-white mb-4 uppercase">Earned Badges</h3>
+                        <div className="grid grid-cols-4 gap-3">
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((badge) => (
+                                <div key={badge} className={`aspect-square rounded-md flex items-center justify-center ${badge <= 5 ? 'bg-[#00FFC0]/10 text-[#00FFC0] border border-[#00FFC0]/30 shadow-[0_0_10px_rgba(0,255,192,0.15)]' : 'bg-[#222222] text-[#333333] border border-[#333333]'}`}>
+                                    <Icons.Shield className="w-5 h-5" />
+                                </div>
+                            ))}
                         </div>
                     </Card>
                 </div>

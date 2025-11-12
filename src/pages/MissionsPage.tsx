@@ -1,22 +1,45 @@
-
-import React, { useContext } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icons } from '../components/icons';
 import { ProgressBar } from '../components/ProgressBar';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
-import { AppContext } from '../context/AppContext';
 
-// --- MOCK DATA REMOVED ---
-const DAILY_MISSIONS: any[] = [];
-const WEEKLY_MISSIONS: any[] = [];
-const MASTERY_MISSIONS: any[] = [];
+// --- MOCK DATA ---
+const DAILY_MISSIONS = [
+    { id: 'd1', title: "DAILY LOGIN SIGNAL", payload: "5 ZP", progress: 100, status: "COMPLETE", action: "CLAIM REWARD" },
+    { id: 'd2', title: "COMMUNITY VOICE", payload: "15 ZP + 5 XP", progress: 33, status: "IN PROGRESS", action: "POST IN ALPHA FEED" },
+    { id: 'd3', title: "INTEL ACQUISITION", payload: "10 ZP", progress: 60, status: "IN PROGRESS", action: "VIEW BONUS PAGES" },
+    { id: 'd4', title: "EDGE FINDER AUDIT", payload: "10 ZP", progress: 0, status: "ACTIVE", action: "LAUNCH EDGE FINDER" },
+];
+
+const WEEKLY_MISSIONS = [
+    { id: 'w1', title: "WEEKLY WAGER CHALLENGE", payload: "50 ZP + 25 XP", progress: 80, status: "IN PROGRESS", action: "VIEW STATS" },
+    { id: 'w2', title: "VPR TRANSMISSION", payload: "25 ZP + 50 XP", progress: 50, status: "IN PROGRESS", action: "SUBMIT REPORT" },
+    { id: 'w3', title: "OPERATOR CROSS-REFERENCE", payload: "30 ZP", progress: 0, status: "ACTIVE", action: "COMPARE OPERATORS" },
+    { id: 'w4', title: "FORUM ANALYTICS", payload: "15 ZP", progress: 100, status: "COMPLETE", action: "CLAIM REWARD" },
+];
+
+const MASTERY_MISSIONS = [
+    { id: 'm1', title: "ACTIVATE MFA PROTOCOL", payload: "500 XP", status: "IN PROGRESS", action: "ACCESS SECURITY" },
+    { id: 'm2', title: "SSP WALLET INTEGRATION", payload: "250 ZP + 100 XP", status: "CLAIMED", action: "COMPLETE" },
+    { id: 'm3', title: "FIRST VETO CONTRIBUTION", payload: "1,000 ZP", status: "ACTIVE", action: "N/A" },
+    { id: 'm4', title: "LINK EXTERNAL ACCOUNT", payload: "50 ZP", status: "IN PROGRESS", action: "ACCESS DOSSIER" },
+];
 
 export const MissionsPage = () => {
-  const appContext = useContext(AppContext);
+  const navigate = useNavigate();
 
   const MissionCard: React.FC<{ mission: any, isMastery?: boolean }> = ({ mission, isMastery = false }) => {
       const isClaimable = mission.status === 'COMPLETE';
       const isClaimed = mission.status === 'CLAIMED';
+
+      const handleActionClick = () => {
+        if (mission.title.includes('MFA')) navigate('/settings');
+        if (mission.title.includes('LINK')) navigate('/profile');
+        if (mission.title.includes('ALPHA')) navigate('/community');
+        if (mission.title.includes('BONUS')) navigate('/bonus-offers');
+      };
 
       return (
         <Card className={`p-4 md:p-5 flex flex-col md:flex-row items-center gap-4 transition-all duration-300 
@@ -36,7 +59,7 @@ export const MissionsPage = () => {
                 </div>
             </div>
 
-            {/* Progress */}
+            {/* Progress (Hidden for some Mastery items if needed, but showing here for consistency if data exists) */}
             {!isMastery && mission.progress !== undefined && (
                 <div className="w-full md:flex-1">
                     <div className="flex justify-between text-xs font-mono text-[#8d8c9e] mb-1.5 uppercase">
@@ -69,11 +92,7 @@ export const MissionsPage = () => {
                         variant="secondary" 
                         className="w-full font-mono uppercase text-xs border-[#333] hover:border-[#00FFC0]/50"
                         disabled={mission.action === 'N/A'}
-                        onClick={() => {
-                            if (mission.title.includes('MFA')) appContext?.setCurrentPage('Command Console');
-                            if (mission.title.includes('LINK')) appContext?.setCurrentPage('Profile');
-                            if (mission.title.includes('ALPHA')) appContext?.setCurrentPage('Alpha Feed');
-                        }}
+                        onClick={handleActionClick}
                     >
                         {mission.action}
                     </Button>
@@ -82,13 +101,6 @@ export const MissionsPage = () => {
         </Card>
       );
   };
-  
-  const EmptyState = ({ title }: { title: string }) => (
-    <Card className="p-8 text-center text-[#8d8c9e] border-dashed border-[#333] bg-transparent">
-        <Icons.Target className="h-8 w-8 mx-auto mb-2 opacity-50"/>
-        <p className="font-mono text-sm uppercase">{title}</p>
-    </Card>
-  );
 
   return (
     <div className="container mx-auto max-w-6xl p-4 py-6 md:p-10 page-fade-in">
@@ -115,7 +127,7 @@ export const MissionsPage = () => {
                         </div>
                         <ProgressBar progress={85} className="h-2.5" />
                     </div>
-                    <Button variant="ghost" size="icon" className="hidden md:flex text-[#8d8c9e] hover:text-white" onClick={() => appContext?.setCurrentPage('Profile')}>
+                    <Button variant="ghost" size="icon" className="hidden md:flex text-[#8d8c9e] hover:text-white" onClick={() => navigate('/profile')}>
                         <Icons.ChevronRight className="h-5 w-5" />
                     </Button>
                 </div>
@@ -136,13 +148,9 @@ export const MissionsPage = () => {
             <h2 className="font-heading text-xl text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
                 <span className="text-[#00FFC0]">I //</span> DAILY INITIATIVES <span className="text-xs text-[#8d8c9e] ml-2 font-mono normal-case opacity-70">// Resets 00:00 UTC</span>
             </h2>
-            {DAILY_MISSIONS.length > 0 ? (
-                <div className="grid grid-cols-1 gap-4">
-                    {DAILY_MISSIONS.map(m => <MissionCard key={m.id} mission={m} />)}
-                </div>
-            ) : (
-                <EmptyState title="No Daily Missions Available" />
-            )}
+            <div className="grid grid-cols-1 gap-4">
+                {DAILY_MISSIONS.map(m => <MissionCard key={m.id} mission={m} />)}
+            </div>
         </section>
 
         {/* CIRCUIT II: WEEKLY */}
@@ -150,13 +158,9 @@ export const MissionsPage = () => {
             <h2 className="font-heading text-xl text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
                  <span className="text-[#00FFC0]">II //</span> WEEKLY DEPLOYS <span className="text-xs text-[#8d8c9e] ml-2 font-mono normal-case opacity-70">// Resets Sunday</span>
             </h2>
-            {WEEKLY_MISSIONS.length > 0 ? (
-                <div className="grid grid-cols-1 gap-4">
-                    {WEEKLY_MISSIONS.map(m => <MissionCard key={m.id} mission={m} />)}
-                </div>
-            ) : (
-                <EmptyState title="No Weekly Missions Available" />
-            )}
+            <div className="grid grid-cols-1 gap-4">
+                {WEEKLY_MISSIONS.map(m => <MissionCard key={m.id} mission={m} />)}
+            </div>
         </section>
 
         {/* CIRCUIT III: MASTERY */}
@@ -164,21 +168,17 @@ export const MissionsPage = () => {
             <h2 className="font-heading text-xl text-white mb-4 flex items-center gap-2 uppercase tracking-wider">
                  <span className="text-[#00FFC0]">III //</span> PROTOCOL MASTERY <span className="text-xs text-[#8d8c9e] ml-2 font-mono normal-case opacity-70">// One-time High Value Targets</span>
             </h2>
-             {MASTERY_MISSIONS.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {MASTERY_MISSIONS.map(m => <MissionCard key={m.id} mission={m} isMastery={true} />)}
-                </div>
-            ) : (
-                <EmptyState title="No Mastery Missions Available" />
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {MASTERY_MISSIONS.map(m => <MissionCard key={m.id} mission={m} isMastery={true} />)}
+            </div>
         </section>
 
         {/* FOOTER LINKS */}
         <div className="border-t border-[#333] pt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => appContext?.setCurrentPage('Rewards')}>
+            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => navigate('/rewards')}>
                 VIEW PAYOUT HISTORY LOG <Icons.ArrowRight className="h-4 w-4 ml-2" />
             </Button>
-            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => appContext?.setCurrentPage('Rewards')}>
+            <Button variant="ghost" className="text-[#8d8c9e] hover:text-white font-heading uppercase text-xs border border-[#333] bg-[#0c0c0e]" onClick={() => navigate('/rewards')}>
                 ACCESS ZAP POINTS STORE <Icons.ArrowRight className="h-4 w-4 ml-2" />
             </Button>
         </div>

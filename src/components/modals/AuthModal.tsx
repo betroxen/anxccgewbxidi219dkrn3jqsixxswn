@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../auth/AuthContext';
 import { useUI } from '../../context/UIContext';
-import { Icons } from '../common/icons';
-import { Button } from '../common/Button';
-import { Input } from '../common/Input';
-import { ZapLogo } from '../ui/ZapLogo';
+import { Icons } from '../icons';
+import { Button } from '../Button';
+import { Input } from '../Input';
+import { ZapLogo } from '../ZapLogo';
 
 export const AuthModal: React.FC = () => {
   const { login, register } = useAuth();
-  // FIX: Use correct property names from UIContext and alias them.
   const { isAuthModalOpen: isOpen, closeAuthModal: onClose, authModalTab: initialTab } = useUI();
   
   const [activeTab, setActiveTab] = useState<'login' | 'register'>(initialTab);
@@ -51,13 +50,13 @@ export const AuthModal: React.FC = () => {
 
     try {
         if (activeTab === 'login') {
-            if (!email || !password) { setError('CREDENTIALS MISSING'); return; }
+            if (!email || !password) { throw new Error('CREDENTIALS MISSING'); }
             await login(email, password);
         } else {
-            if (!username || !email || !password || !confirmPassword) { setError('ALL FIELDS MANDATORY'); return; }
-            if (password !== confirmPassword) { setError('PASSKEY MISMATCH'); return; }
-            if (passwordStrength < 3) { setError('PASSKEY STRENGTH INSUFFICIENT'); return; }
-            if (!termsAccepted) { setError('AFFIRMATION PROTOCOL REQUIRED'); return; }
+            if (!username || !email || !password || !confirmPassword) { throw new Error('ALL FIELDS MANDATORY'); }
+            if (password !== confirmPassword) { throw new Error('PASSKEY MISMATCH'); }
+            if (passwordStrength < 3) { throw new Error('PASSKEY STRENGTH INSUFFICIENT'); }
+            if (!termsAccepted) { throw new Error('AFFIRMATION PROTOCOL REQUIRED'); }
             await register({ username, email, password });
         }
         setTimeout(() => {
@@ -131,7 +130,7 @@ export const AuthModal: React.FC = () => {
                         <label className="flex items-start gap-3 cursor-pointer group p-2 sm:p-3 rounded border border-[#333] hover:border-[#3a3846] bg-[#0A0A0A] transition-colors">
                             <input type="checkbox" checked={termsAccepted} onChange={(e) => setTermsAccepted(e.target.checked)} className="mt-1 accent-[#00FFC0]" />
                             <span className="text-[10px] text-[#8d8c9e] leading-tight font-mono uppercase">
-                                I AFFIRM I AM 18+ AND ACCEPT THE <button type="button" className="text-[#00FFC0] hover:underline">TERMS</button> AND <button type="button" className="text-[#00FFC0] hover:underline">PRIVACY POLICY</button>.
+                                I AFFIRM I AM 18+ AND ACCEPT THE <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-[#00FFC0] hover:underline">TERMS</a> AND <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#00FFC0] hover:underline">PRIVACY POLICY</a>.
                             </span>
                         </label>
                     </>
