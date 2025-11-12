@@ -1,16 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
 import { Icons } from './icons';
 
 interface MobileBottomNavProps {
     onToggleMenu: () => void;
+    isLoggedIn: boolean;
 }
 
-export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onToggleMenu }) => {
-    const { user } = useAuth();
-
-    if (!user) return null;
+export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onToggleMenu, isLoggedIn }) => {
+    if (!isLoggedIn) return null;
 
     const navItems = [
         { path: '/dashboard', label: 'HQ', icon: Icons.LayoutDashboard },
@@ -28,8 +26,9 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ onToggleMenu }
                     <NavLink
                         key={item.path}
                         to={item.path}
+                        end={item.path === '/dashboard'}
                         className={({ isActive }) => 
-                            `flex flex-1 flex-col items-center justify-center h-full relative group active:scale-95 transition-transform ${isActive ? 'is-active' : ''}`
+                            `flex flex-1 flex-col items-center justify-center h-full relative group active:scale-95 transition-transform`
                         }
                         aria-label={item.label}
                     >

@@ -1,17 +1,17 @@
 import React from 'react';
-import { HeroSection } from '../sections/HeroSection';
-import { FeaturedCasinos } from '../sections/FeaturedCasinos';
-import { FAQComponent } from '../sections/FAQComponent';
-import { Icons } from '../components/icons';
-import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import { ProgressBar } from '../components/ProgressBar';
-import { useAuth } from '../auth/AuthContext';
-import { useUI } from '../context/UIContext';
+import { HeroSection } from '@/sections/HeroSection';
+import { FeaturedCasinos } from '@/pages/FeaturedCasinos';
+import { FAQComponent } from '@/sections/FAQComponent';
+import { Icons } from '@/components/icons';
+import { Card } from '@/components/Card';
+import { Button } from '@/components/Button';
+import { ProgressBar } from '@/components/ProgressBar';
+import { useAuth } from '@/auth/AuthContext';
+import { useUI } from '@/context/UIContext';
 
 export const HomePage: React.FC = () => {
   const { user } = useAuth();
-  const { openLogin, openRegister } = useUI();
+  const { openRegister } = useUI();
   
   React.useEffect(() => {
       window.scrollTo(0, 0);

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,11 +5,7 @@ import { useToast } from '../context/ToastContext';
 import { Icons } from '../components/icons';
 import { Button } from '../components/Button';
 import { Tooltip } from '../components/Tooltip';
-
-// Ensure CryptoJS is recognized from global scope (loaded via index.html)
-declare global {
-    interface Window { CryptoJS: any; }
-}
+import CryptoJS from 'crypto-js';
 
 // --- TYPES ---
 interface Game {
@@ -217,8 +212,8 @@ export const StrategySandboxPage = () => {
     // Provably Fair Logic
     const generateSeedPair = (): SimulationSession['seeds'] => {
         const clientSeed = `user_session_${Math.random().toString(36).substring(2, 10)}`;
-        const serverSeed = window.CryptoJS.lib.WordArray.random(32).toString();
-        const serverSeedHash = window.CryptoJS.SHA256(serverSeed).toString();
+        const serverSeed = CryptoJS.lib.WordArray.random(32).toString();
+        const serverSeedHash = CryptoJS.SHA256(serverSeed).toString();
         return { clientSeed, serverSeed, serverSeedHash };
     };
 

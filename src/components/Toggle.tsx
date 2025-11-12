@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSound } from '../context/SoundContext';
+import { useSound } from '@/context/SoundContext';
 
 interface ToggleProps {
   checked: boolean;

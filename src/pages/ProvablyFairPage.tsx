@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Icons } from '../components/icons';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { Input } from '../components/Input';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
+import { Input } from '@/components/Input';
 import CryptoJS from 'crypto-js';
 
 export const ProvablyFairPage = () => {

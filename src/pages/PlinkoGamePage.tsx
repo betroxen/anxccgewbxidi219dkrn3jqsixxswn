@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import { Input } from '../components/Input';
-import { Icons } from '../components/icons';
-import { useToast } from '../context/ToastContext';
-import { ProvablyFairModal } from '../components/ProvablyFairModal';
-import { useSound } from '../context/SoundContext';
+import { Card } from '@/components/Card';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { Icons } from '@/components/icons';
+import { useToast } from '@/context/ToastContext';
+import { ProvablyFairModal } from '@/components/ProvablyFairModal';
+import { useSound } from '@/context/SoundContext';
 
 // --- CONFIGURATION & CONSTANTS ---
 const ROW_OPTIONS = [8, 10, 12, 14, 16];

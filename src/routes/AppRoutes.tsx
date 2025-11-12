@@ -1,53 +1,55 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { MainLayout } from '../layouts/MainLayout';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { MainLayout } from '@/layouts/MainLayout';
+import { useAuth } from '@/auth/AuthContext';
 
 // Pages
-import { HomePage } from '../pages/HomePage';
-import { DashboardPage } from '../pages/DashboardPage';
-import { CasinoDirectoryPage } from '../pages/CasinoDirectoryPage';
-import { CasinoDetailPage } from '../pages/CasinoDetailPage';
-import { BonusOffersPage } from '../pages/BonusOffersPage';
-import { ProfilePage } from '../pages/ProfilePage';
-import { SettingsPage } from '../pages/SettingsPage';
-import { SupportPage } from '../pages/SupportPage';
-import { FAQPage } from '../pages/FAQPage';
-import { TermsOfServicePage } from '../pages/TermsOfServicePage';
-import { PrivacyPolicyPage } from '../pages/PrivacyPolicyPage';
-import { AboutUsPage } from '../pages/AboutUsPage';
-import { AffiliatePage } from '../pages/AffiliatePage';
-import { BonusCalculatorPage } from '../pages/BonusCalculatorPage';
-import { LiveRTPTrackerPage } from '../pages/LiveRTPTrackerPage';
-import { MissionsPage } from '../pages/MissionsPage';
-import { LeaderboardPage } from '../pages/LeaderboardPage';
-import { CommunityHubPage } from '../pages/CommunityHubPage';
-import { MessagesPage } from '../pages/MessagesPage';
-import { TournamentsPage } from '../pages/TournamentsPage';
-import { AnalyticsPage } from '../pages/AnalyticsPage';
-import { ReportsPage } from '../pages/ReportsPage';
-import { RewardsPage } from '../pages/RewardsPage';
-import { LiveSupportPage } from '../pages/LiveSupportPage';
-import { ResponsibleGamingPage } from '../pages/ResponsibleGamingPage';
-import { CommercialDisclosurePage } from '../pages/CommercialDisclosurePage';
-import { PartnerVettingPage } from '../pages/PartnerVettingPage';
-import { ReviewMethodologyPage } from '../pages/ReviewMethodologyPage';
-import { KnowledgeBasePage } from '../pages/KnowledgeBasePage';
-import { StrategySandboxPage } from '../pages/StrategySandboxPage';
-import { MinesGamePage } from '../pages/MinesGamePage';
-import { PlinkoGamePage } from '../pages/PlinkoGamePage';
-import { ProvablyFairPage } from '../pages/ProvablyFairPage';
-import { useAuth } from '../auth/AuthContext';
+import { HomePage } from '@/pages/HomePage';
+import { DashboardPage } from '@/pages/DashboardPage';
+import { CasinoDirectoryPage } from '@/pages/CasinoDirectoryPage';
+import { CasinoDetailPage } from '@/pages/CasinoDetailPage';
+import { BonusOffersPage } from '@/pages/BonusOffersPage';
+import { ProfilePage } from '@/pages/ProfilePage';
+import { SettingsPage } from '@/pages/SettingsPage';
+import { SupportPage } from '@/pages/SupportPage';
+import { FAQPage } from '@/pages/FAQPage';
+import { TermsOfServicePage } from '@/pages/TermsOfServicePage';
+import { PrivacyPolicyPage } from '@/pages/PrivacyPolicyPage';
+import { AboutUsPage } from '@/pages/AboutUsPage';
+import { AffiliatePage } from '@/pages/AffiliatePage';
+import { BonusCalculatorPage } from '@/pages/BonusCalculatorPage';
+import { LiveRTPTrackerPage } from '@/pages/LiveRTPTrackerPage';
+import { MissionsPage } from '@/pages/MissionsPage';
+import { LeaderboardPage } from '@/pages/LeaderboardPage';
+import { CommunityHubPage } from '@/pages/CommunityHubPage';
+import { MessagesPage } from '@/pages/MessagesPage';
+import { TournamentsPage } from '@/pages/TournamentsPage';
+import { AnalyticsPage } from '@/pages/AnalyticsPage';
+import { ReportsPage } from '@/pages/ReportsPage';
+import { RewardsPage } from '@/pages/RewardsPage';
+import { LiveSupportPage } from '@/pages/LiveSupportPage';
+import { ResponsibleGamingPage } from '@/pages/ResponsibleGamingPage';
+import { CommercialDisclosurePage } from '@/pages/CommercialDisclosurePage';
+import { PartnerVettingPage } from '@/pages/PartnerVettingPage';
+import { ReviewMethodologyPage } from '@/pages/ReviewMethodologyPage';
+import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage';
+import { StrategySandboxPage } from '@/pages/StrategySandboxPage';
+import { MinesGamePage } from '@/pages/MinesGamePage';
+import { PlinkoGamePage } from '@/pages/PlinkoGamePage';
+import { ProvablyFairPage } from '@/pages/ProvablyFairPage';
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
     const { user, loading } = useAuth();
     if (loading) return null; // Or a loading spinner
-    return user ? <>{children}</> : <HomePage />;
+    return user ? children : <Navigate to="/" replace />;
 };
 
 
 export const AppRoutes: React.FC = () => (
   <Routes>
     <Route element={<MainLayout />}>
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/affiliate" element={<AffiliatePage />} />
@@ -56,7 +58,6 @@ export const AppRoutes: React.FC = () => (
         <Route path="/commercial-disclosure" element={<CommercialDisclosurePage />} />
         <Route path="/partner-vetting" element={<PartnerVettingPage />} />
         <Route path="/review-methodology" element={<ReviewMethodologyPage />} />
-        <Route path="/provably-fair" element={<ProvablyFairPage />} />
         <Route path="/responsible-gaming" element={<ResponsibleGamingPage />} />
 
         {/* Protected Routes */}
@@ -83,8 +84,16 @@ export const AppRoutes: React.FC = () => (
         <Route path="/strategy-sandbox" element={<ProtectedRoute><StrategySandboxPage /></ProtectedRoute>} />
         <Route path="/strategy-sandbox/mines" element={<ProtectedRoute><MinesGamePage /></ProtectedRoute>} />
         <Route path="/strategy-sandbox/plinko" element={<ProtectedRoute><PlinkoGamePage /></ProtectedRoute>} />
+        <Route path="/provably-fair" element={<ProtectedRoute><ProvablyFairPage /></ProtectedRoute>} />
         
-        <Route path="*" element={<div>Page not found</div>} />
+        <Route path="*" element={
+          <div className="flex h-full items-center justify-center text-center">
+            <div>
+              <h1 className="text-4xl font-bold font-heading">404 - Not Found</h1>
+              <p className="text-[#8d8c9e] mt-2">The page you're looking for doesn't exist.</p>
+            </div>
+          </div>
+        } />
     </Route>
   </Routes>
 );

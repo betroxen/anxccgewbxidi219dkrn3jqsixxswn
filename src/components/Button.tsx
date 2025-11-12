@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import { useSound } from '../context/SoundContext';
-import { Icons } from './icons';
+import { useSound } from '@/context/SoundContext';
+import { Icons } from '@/components/icons';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'link';

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+// FIX: Changed alias path to relative path to resolve module loading error.
 import App from './App';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {

@@ -1,5 +1,4 @@
-
-import { Icons } from '../components/icons';
+import { Icons } from '@/components/icons';
 import React from 'react';
 
 export const sidebarNavItems = [
@@ -13,7 +12,7 @@ export const sidebarNavItems = [
     { title: "Messages", path: "/messages", icon: Icons.Mail as React.FC },
   ]},
   { group: "CAS", items: [
-    { title: "Casino Directory", path: "/casinos", icon: Icons.Star as React.FC },
+    { title: "Casino Directory", path: "/casinos", icon: Icons.Server as React.FC },
     { title: "Bonus Offers", path: "/bonus-offers", icon: Icons.Percent as React.FC },
     { title: "Tournaments", path: "/tournaments", icon: Icons.Zap as React.FC },
   ]},
@@ -21,10 +20,11 @@ export const sidebarNavItems = [
     { title: "Strategy Sandbox", path: "/strategy-sandbox", icon: Icons.Binary as React.FC },
     { title: "Bonus Calculator", path: "/bonus-calculator", icon: Icons.Calculator as React.FC },
     { title: "RTP Tracker", path: "/rtp-tracker", icon: Icons.Activity as React.FC },
+    { title: "Provably Fair Verifier", path: "/provably-fair", icon: Icons.Shield as React.FC },
   ]},
   { group: "SUP", items: [
     { title: "Support", path: "/support", icon: Icons.HelpCircle as React.FC },
-    { title: "FAQ", path: "/faq", icon: Icons.BookOpen as React.FC },
+    { title: "Knowledge Base", path: "/knowledge-base", icon: Icons.BookOpen as React.FC },
     { title: "Command Console", path: "/settings", icon: Icons.Settings as React.FC },
   ]}
 ];

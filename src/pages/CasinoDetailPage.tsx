@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Icons } from '../components/icons';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { mockCasinosData } from '../constants/casinos';
-import { useUI } from '../context/UIContext';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
+import { mockCasinosData } from '@/constants/casinos';
+import { useUI } from '@/context/UIContext';
 
 export const CasinoDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();

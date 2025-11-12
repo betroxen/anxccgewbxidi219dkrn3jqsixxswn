@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
-import { useUI } from '../context/UIContext';
-import { Header } from '../components/layout/Header';
-import { Sidebar } from '../components/layout/Sidebar';
-import { MobileBottomNav } from '../components/MobileBottomNav';
-import { Footer } from '../sections/Footer';
-import { AuthModal } from '../components/modals/AuthModal';
-import { ReviewModal } from '../components/modals/ReviewModal';
-import { FloatingActionButton } from '../components/FloatingActionButton';
-import { Icons } from '../components/icons';
+import { useAuth } from '@/auth/AuthContext';
+import { useUI } from '@/context/UIContext';
+import { Header } from '@/components/layout/Header';
+import { Sidebar } from '@/components/layout/Sidebar';
+import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
+import { Footer } from '@/sections/Footer';
+import { AuthModal } from '@/components/modals/AuthModal';
+import { ReviewModal } from '@/components/modals/ReviewModal';
+import { FloatingActionButton } from '@/components/FloatingActionButton';
+import { Icons } from '@/components/icons';
 
 
 export const MainLayout: React.FC = () => {
-    const { user, loading } = useAuth();
+    const { user, loading, logout } = useAuth();
     const { 
         isAuthModalOpen,
         isReviewModalOpen,
+        openLogin,
+        openRegister,
     } = useUI();
     const location = useLocation();
 

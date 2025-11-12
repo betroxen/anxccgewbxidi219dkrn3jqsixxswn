@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authService } from '../auth/authService';
+import { authService } from '@/auth/authService';
 
 const api = axios.create({
   baseURL: process.env.API_URL || 'https://api.z-api.io', // Placeholder API URL

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Icons } from './icons';
-import { Button } from './Button';
-import { Input } from './Input';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
 
 interface ProvablyFairModalProps {
     isOpen: boolean;

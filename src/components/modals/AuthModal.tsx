@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../auth/AuthContext';
-import { useUI } from '../../context/UIContext';
-import { Icons } from '../icons';
-import { Button } from '../Button';
-import { Input } from '../Input';
-import { ZapLogo } from '../ZapLogo';
+import { useAuth } from '@/auth/AuthContext';
+import { useUI } from '@/context/UIContext';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { ZapLogo } from '@/components/ZapLogo';
 
 export const AuthModal: React.FC = () => {
   const { login, register } = useAuth();

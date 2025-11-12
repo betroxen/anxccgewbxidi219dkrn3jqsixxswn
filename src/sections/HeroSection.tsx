@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '../components/Button';
-import { useAuth } from '../auth/AuthContext';
-import { useUI } from '../context/UIContext';
+import { Button } from '@/components/Button';
+import { useAuth } from '@/auth/AuthContext';
+import { useUI } from '@/context/UIContext';
 
 export const HeroSection: React.FC = () => {
   const { user } = useAuth();

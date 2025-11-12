@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icons } from '../components/icons';
-import { ZapLogo } from '../components/ZapLogo';
+import { Icons } from '@/components/icons';
+import { ZapLogo } from '@/components/ZapLogo';
 
 export const Footer = () => {
   const navigate = useNavigate();

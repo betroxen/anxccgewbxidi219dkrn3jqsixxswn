@@ -1,6 +1,6 @@
 import React, { createContext, useState, useCallback, ReactNode, useContext } from 'react';
-import { Icons } from '../components/icons';
-import { useSound } from './SoundContext';
+import { Icons } from '@/components/icons';
+import { useSound } from '@/context/SoundContext';
 
 type ToastType = 'success' | 'error' | 'info';
 

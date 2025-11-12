@@ -1,12 +1,11 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Icons } from '../icons';
-import { sidebarNavItems } from '../../constants/sidebar';
-import { Button } from '../Button';
-import { Input } from '../Input';
-import { ProgressBar } from '../ProgressBar';
-import { useAuth } from '../../auth/AuthContext';
+import { Icons } from '@/components/icons';
+import { sidebarNavItems } from '@/constants/sidebar';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { ProgressBar } from '@/components/ProgressBar';
+import { useAuth } from '@/auth/AuthContext';
 
 const SidebarLink: React.FC<{ path: string; icon: React.FC<any>; children: React.ReactNode; isCollapsed: boolean; isMobile?: boolean; onClick?: () => void }> = ({ path, icon: Icon, children, isCollapsed, isMobile, onClick }) => {
   return (

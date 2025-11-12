@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/Accordion';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion';
 
 export const MissionSection = () => {
   const manifestoItems = [

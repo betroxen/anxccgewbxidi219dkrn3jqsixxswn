@@ -1,5 +1,5 @@
-import api from '../api/client';
-import { User, RegisterData } from './types';
+import api from '@/api/client';
+import { User, RegisterData } from '@/auth/types';
 
 const TOKEN_KEY = 'access_token';
 

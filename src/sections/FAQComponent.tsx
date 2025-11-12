@@ -1,8 +1,7 @@
-
 import React from 'react';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/Accordion';
-import { Icons } from '../components/icons';
-import { Button } from '../components/Button';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/Button';
 
 export const FAQComponent = () => {
   const faqItems = [

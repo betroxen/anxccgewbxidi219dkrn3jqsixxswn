@@ -124,7 +124,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed, i
                         {group.items.map((item) => (
                             <SidebarContext.Provider key={item.title} value={{ isActive: appContext?.currentPage === item.title, isCollapsed: false }}>
                                 <SidebarLink
-                                    href={item.href}
+                                    // FIX: Changed item.href to item.path to match the data structure.
+                                    href={item.path}
                                     icon={item.icon}
                                     isMobile={true}
                                     onClick={(e) => handleNavClick(e, item.title)}
@@ -185,7 +186,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed, i
                     {group.items.map((item) => (
                         <SidebarContext.Provider key={item.title} value={{ isActive: appContext?.currentPage === item.title, isCollapsed }}>
                         <SidebarLink
-                            href={item.href}
+                            // FIX: Changed item.href to item.path to match the data structure.
+                            href={item.path}
                             icon={item.icon}
                             onClick={(e) => handleNavClick(e, item.title)}
                         >

@@ -1,12 +1,11 @@
-
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button } from '../Button';
-import { Icons } from '../icons';
-import { ZapLogo } from '../ZapLogo';
-import { useSound } from '../../context/SoundContext';
-import { useAuth } from '../../auth/AuthContext';
-import { useUI } from '../../context/UIContext';
+import { Button } from '@/components/Button';
+import { Icons } from '@/components/icons';
+import { ZapLogo } from '@/components/ZapLogo';
+import { useSound } from '@/context/SoundContext';
+import { useAuth } from '@/auth/AuthContext';
+import { useUI } from '@/context/UIContext';
 
 interface HeaderProps {
   isSidebarCollapsed: boolean;
